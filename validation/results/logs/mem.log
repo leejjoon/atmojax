@@ -1,0 +1,13 @@
+23:10:20 rss_MB=6 
+23:10:35 rss_MB=7234 iteration 1/40: opacity
+23:10:50 rss_MB=11351 iteration 1/40: opacity
+23:11:05 rss_MB=12789 iteration 1/40: opacity
+23:11:20 rss_MB=13003 iteration 2/40: opacity
+23:11:35 rss_MB=12744 iteration 3/40: opacity
+23:11:50 rss_MB=13292 iteration 5/40: opacity
+23:12:05 rss_MB=13033 iteration 7/40: opacity
+23:12:20 rss_MB=12814 iteration 8/40: transfer
+23:12:35 rss_MB=13274 iteration 10/40: opacity
+23:12:50 rss_MB=12987 iteration 12/40: opacity
+23:13:05 rss_MB=12814 iteration 13/40: opacity
+exit 0

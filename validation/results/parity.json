@@ -1,0 +1,42 @@
+{
+ "(5777, 4.44, 0.0, 0.0, 1.0)": {
+  "column_mass": 2.150923696264684e-06,
+  "temperature": 2.5944703196945085e-07,
+  "gas_pressure": 5.822996611115627e-06,
+  "electron_density": 2.688433344388841e-06,
+  "rosseland_opacity": 2.1508374128398344e-06,
+  "radiative_acceleration": 2.1083088145068702e-07
+ },
+ "(4286, 1.66, -0.52, 0.3, 1.7)": {
+  "column_mass": 4.097942124747789e-06,
+  "temperature": 4.820181016551572e-07,
+  "gas_pressure": 6.533268235964229e-06,
+  "electron_density": 1.2301648262269538e-06,
+  "rosseland_opacity": 4.0846834994390235e-06,
+  "radiative_acceleration": 8.703913641089102e-06
+ },
+ "(5000, 2.5, -1.5, 0.4, 1.5)": {
+  "column_mass": 5.5962430705047694e-06,
+  "temperature": 4.6495684768999013e-07,
+  "gas_pressure": 5.587312398303013e-06,
+  "electron_density": 3.718345054082306e-06,
+  "rosseland_opacity": 5.605912102191191e-06,
+  "radiative_acceleration": 9.901277848759168e-06
+ },
+ "(9000, 4.2, 0.3, 0.0, 2.0)": {
+  "column_mass": 1.7708146977657435e-06,
+  "temperature": 1.0681235007581336e-07,
+  "gas_pressure": 6.93695668685379e-07,
+  "electron_density": 2.4382848893278464e-06,
+  "rosseland_opacity": 2.2770383492076718e-06,
+  "radiative_acceleration": 1.8466647180786222e-06
+ },
+ "(4100, 1.0, -2.0, 0.4, 2.5)": {
+  "column_mass": 1.1540637471219028e-06,
+  "temperature": 7.665649759402982e-08,
+  "gas_pressure": 2.7609604162925905e-06,
+  "electron_density": 3.1710267323070696e-06,
+  "rosseland_opacity": 1.5310928009881764e-06,
+  "radiative_acceleration": 4.2086212299971815e-05
+ }
+}

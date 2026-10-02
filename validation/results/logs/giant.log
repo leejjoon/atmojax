@@ -1,0 +1,35 @@
+[metalpoor_giant] base labels=[5000.0, 2.5, -1.5, 0.4, 1.5]
+   converged=True iters=45 wall=333s dT_deep=4.7959628084375316e-06
+[metalpoor_giant] teff_p1 labels=[5025.0, 2.5, -1.5, 0.4, 1.5]
+   converged=False iters=60 wall=367s dT_deep=7.903089516411397e-06
+[metalpoor_giant] teff_m1 labels=[4975.0, 2.5, -1.5, 0.4, 1.5]
+   converged=False iters=60 wall=372s dT_deep=1.0789851277943654e-05
+[metalpoor_giant] teff_p2 labels=[5050.0, 2.5, -1.5, 0.4, 1.5]
+   converged=False iters=60 wall=364s dT_deep=0.00011481312048082833
+[metalpoor_giant] teff_m2 labels=[4950.0, 2.5, -1.5, 0.4, 1.5]
+   converged=False iters=60 wall=367s dT_deep=6.4517219852877236e-06
+[metalpoor_giant] logg_p1 labels=[5000.0, 2.55, -1.5, 0.4, 1.5]
+   converged=True iters=59 wall=370s dT_deep=3.139114396748094e-06
+[metalpoor_giant] logg_m1 labels=[5000.0, 2.45, -1.5, 0.4, 1.5]
+   converged=True iters=49 wall=326s dT_deep=4.506669133095506e-06
+[metalpoor_giant] logg_p2 labels=[5000.0, 2.6, -1.5, 0.4, 1.5]
+   converged=True iters=52 wall=333s dT_deep=4.969668177425631e-06
+[metalpoor_giant] logg_m2 labels=[5000.0, 2.4, -1.5, 0.4, 1.5]
+   converged=False iters=60 wall=376s dT_deep=6.225487911875225e-06
+[metalpoor_giant] mh_p1 labels=[5000.0, 2.5, -1.45, 0.4, 1.5]
+   converged=True iters=58 wall=381s dT_deep=4.469802061954984e-06
+[metalpoor_giant] mh_m1 labels=[5000.0, 2.5, -1.55, 0.4, 1.5]
+   converged=True iters=47 wall=300s dT_deep=4.833066833832809e-06
+[metalpoor_giant] mh_p2 labels=[5000.0, 2.5, -1.4, 0.4, 1.5]
+   converged=False iters=60 wall=402s dT_deep=7.208281143990367e-06
+[metalpoor_giant] mh_m2 labels=[5000.0, 2.5, -1.6, 0.4, 1.5]
+   converged=False iters=60 wall=410s dT_deep=0.0002798386146398496
+[metalpoor_giant] am_p1 labels=[5000.0, 2.5, -1.5, 0.45, 1.5]
+   converged=True iters=44 wall=321s dT_deep=4.223630508172442e-06
+[metalpoor_giant] am_m1 labels=[5000.0, 2.5, -1.5, 0.35, 1.5]
+   converged=True iters=54 wall=377s dT_deep=2.999229123698156e-06
+[metalpoor_giant] am_p2 labels=[5000.0, 2.5, -1.5, 0.5, 1.5]
+   converged=True iters=49 wall=345s dT_deep=3.3737998851807595e-06
+[metalpoor_giant] am_m2 labels=[5000.0, 2.5, -1.5, 0.3, 1.5]
+   converged=False iters=60 wall=424s dT_deep=1.2527873014215619e-05
+GIANT_DONE

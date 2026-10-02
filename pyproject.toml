@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "atmojax"
+version = "0.1.0"
+description = "Differentiable 1D LTE model-atmosphere initializers in JAX"
+readme = "README.md"
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+dependencies = [
+  "jax>=0.4.20",
+  "numpy>=1.26",
+]
+
+[project.optional-dependencies]
+export = ["torch>=2.2"]
+test = ["pytest>=7"]
+validation = ["torch>=2.2", "scipy>=1.11"]
+
+[project.scripts]
+atmojax-export = "atmojax.export:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

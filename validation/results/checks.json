@@ -1,0 +1,22 @@
+{
+ "tau_grid": {
+  "sun": {
+   "median_abs_dlogtau": 9.953116315575272e-05,
+   "max_abs_dlogtau": 0.008410575200249515
+  },
+  "metalpoor_giant": {
+   "median_abs_dlogtau": 0.0001530293815643624,
+   "max_abs_dlogtau": 0.011654766350970513
+  }
+ },
+ "tolerance": {
+  "median_abs_dlnT_2e-5_vs_5e-6": 2.1429838405140345e-05,
+  "median_abs_dlnT_for_25K_teff_step": 0.004191516754229241,
+  "ratio": 0.005112669150974438
+ },
+ "conventions": {
+  "max_abs_solar_log_abundance_difference_Z3_99": 0.0,
+  "alpha_elements_identical": true,
+  "helium_fraction_dss": 0.07837
+ }
+}

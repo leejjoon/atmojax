@@ -1,0 +1,67 @@
+[sun] base labels=[5777.0, 4.44, 0.0, 0.0, 1.0]
+[payne-zero-atmosphere] iteration 1/40: start
+[payne-zero-atmosphere] iteration 1/40: opacity
+[payne-zero-atmosphere] iteration 1/40: transfer
+[payne-zero-atmosphere] iteration 1/40: finalization
+[payne-zero-atmosphere] iteration 1/40: done deep_layer_relative_temperature_change=1.983280e-03
+[payne-zero-atmosphere] iteration 2/40: start
+[payne-zero-atmosphere] iteration 2/40: opacity
+[payne-zero-atmosphere] iteration 2/40: transfer
+[payne-zero-atmosphere] iteration 2/40: finalization
+[payne-zero-atmosphere] iteration 2/40: done deep_layer_relative_temperature_change=1.734215e-03
+[payne-zero-atmosphere] iteration 3/40: start
+[payne-zero-atmosphere] iteration 3/40: opacity
+[payne-zero-atmosphere] iteration 3/40: transfer
+[payne-zero-atmosphere] iteration 3/40: finalization
+[payne-zero-atmosphere] iteration 3/40: done deep_layer_relative_temperature_change=7.436110e-04
+[payne-zero-atmosphere] iteration 4/40: start
+[payne-zero-atmosphere] iteration 4/40: opacity
+[payne-zero-atmosphere] iteration 4/40: transfer
+[payne-zero-atmosphere] iteration 4/40: finalization
+[payne-zero-atmosphere] iteration 4/40: done deep_layer_relative_temperature_change=4.086035e-04
+[payne-zero-atmosphere] iteration 5/40: start
+[payne-zero-atmosphere] iteration 5/40: opacity
+[payne-zero-atmosphere] iteration 5/40: transfer
+[payne-zero-atmosphere] iteration 5/40: finalization
+[payne-zero-atmosphere] iteration 5/40: done deep_layer_relative_temperature_change=1.619973e-04
+[payne-zero-atmosphere] iteration 6/40: start
+[payne-zero-atmosphere] iteration 6/40: opacity
+[payne-zero-atmosphere] iteration 6/40: transfer
+[payne-zero-atmosphere] iteration 6/40: finalization
+[payne-zero-atmosphere] iteration 6/40: done deep_layer_relative_temperature_change=1.147786e-04
+[payne-zero-atmosphere] iteration 7/40: start
+[payne-zero-atmosphere] iteration 7/40: opacity
+[payne-zero-atmosphere] iteration 7/40: transfer
+[payne-zero-atmosphere] iteration 7/40: finalization
+[payne-zero-atmosphere] iteration 7/40: done deep_layer_relative_temperature_change=6.328588e-05
+[payne-zero-atmosphere] iteration 8/40: start
+[payne-zero-atmosphere] iteration 8/40: opacity
+[payne-zero-atmosphere] iteration 8/40: transfer
+[payne-zero-atmosphere] iteration 8/40: finalization
+[payne-zero-atmosphere] iteration 8/40: done deep_layer_relative_temperature_change=4.343197e-05
+[payne-zero-atmosphere] iteration 9/40: start
+[payne-zero-atmosphere] iteration 9/40: opacity
+[payne-zero-atmosphere] iteration 9/40: transfer
+[payne-zero-atmosphere] iteration 9/40: finalization
+[payne-zero-atmosphere] iteration 9/40: done deep_layer_relative_temperature_change=3.411198e-05
+[payne-zero-atmosphere] iteration 10/40: start
+[payne-zero-atmosphere] iteration 10/40: opacity
+[payne-zero-atmosphere] iteration 10/40: transfer
+[payne-zero-atmosphere] iteration 10/40: finalization
+[payne-zero-atmosphere] iteration 10/40: done deep_layer_relative_temperature_change=2.960724e-05
+[payne-zero-atmosphere] iteration 11/40: start
+[payne-zero-atmosphere] iteration 11/40: opacity
+[payne-zero-atmosphere] iteration 11/40: transfer
+[payne-zero-atmosphere] iteration 11/40: finalization
+[payne-zero-atmosphere] iteration 11/40: done deep_layer_relative_temperature_change=2.495566e-05
+[payne-zero-atmosphere] iteration 12/40: start
+[payne-zero-atmosphere] iteration 12/40: opacity
+[payne-zero-atmosphere] iteration 12/40: transfer
+[payne-zero-atmosphere] iteration 12/40: finalization
+[payne-zero-atmosphere] iteration 12/40: done deep_layer_relative_temperature_change=1.861776e-05
+[payne-zero-atmosphere] iteration 13/40: start
+[payne-zero-atmosphere] iteration 13/40: opacity
+[payne-zero-atmosphere] iteration 13/40: transfer
+[payne-zero-atmosphere] iteration 13/40: finalization
+[payne-zero-atmosphere] iteration 13/40: converged deep_layer_relative_temperature_change=1.617273e-05
+   converged=True iters=13 wall=164s dT_deep=1.6172730828963628e-05
