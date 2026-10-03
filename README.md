@@ -58,7 +58,9 @@ prediction, not a converged atmosphere.
 
 [`validation/REPORT.md`](validation/REPORT.md) measures them for the five-label initializer, and for the
 CNO one in the H band. They are compared against finite differences of re-converged Payne Zero
-atmospheres (the Sun, a metal-poor giant and Arcturus), at the atmosphere level and on spectra.
+atmospheres (the Sun, a metal-poor giant and Arcturus), at the atmosphere level and on spectra, and
+against DSS's stored ATLAS12 solves at five bases. Against ATLAS12 they beat the emulator DSS rejected
+in 59 of 65 cells (median error 4.6% against 10.4%).
 
 | | Sun | metal-poor giant | Arcturus |
 |---|---|---|---|

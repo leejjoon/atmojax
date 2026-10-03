@@ -63,6 +63,10 @@ At Arcturus (4286 K) the atmosphere-level [α/M] Jacobian is the worst of the th
 H-band flux Jacobians are as good as or better than at the other two (1.1–6.5%, cosine ≥ 0.998).
 This is one cool giant, not the cool-star regime (§8).
 
+**Against ATLAS12** (§5.5), using DSS's own stored V1.3 solves, atmojax scores as it does against
+Payne Zero (the reference's bias is small). It beats the emulator DSS rejected in 59 of 65 cells
+(median error 4.6% against 10.4%), though it still fails G1 on most cells.
+
 **The CNO initializer** (§6.3) is as good as or better than the five-label one for Teff, logg and
 [M/H], but its derivatives with respect to C, N and O are not usable: several atmosphere cells have the
 wrong sign. In the H band most of the C, N and O signal is direct line opacity, so the flux Jacobian is
@@ -366,6 +370,44 @@ which does not, gives the same verdicts.
   spread of 3%. Cool, molecule-rich atmospheres are where DSS's emulator was worst too. §6 shows how
   little of this reaches the H band.
 
+### 5.5 Against ATLAS12 (`atlas12_compare.py`, `results/atlas12_jacobian.json`)
+
+The references above come from Payne Zero's solver, which the emulator was trained to imitate. DSS's
+Phase 1 V1.3 campaign stored ATLAS12 (pyKurucz) solves at ±h, ±2h and ±4h in the four labels around
+12 bases, with the same steps (`artifacts/phase1/fd/` in DSS). `atlas12_compare.py` reads those decks,
+registers them on the canonical τ grid as `fd_reference.py` does, and scores atmojax with the same
+metrics; no solves are run. Five bases lie inside the initializer's training box: the Sun and Arcturus
+(DSS's test split) and three of DSS's training points. The other seven are at the grid's corners
+(3800 K or 7500 K) and are skipped. All were solved at ξ = 2 km/s, and less tightly than §4: the final
+per-iteration change is 5×10⁻⁶ to 10⁻³, which shows up as larger reference spreads.
+
+| base | G1 passes vs ATLAS12 | vs Payne Zero (§5) | cells clearly failing (error > 2× spread and > 10%) |
+|---|---|---|---|
+| Sun | 7/16 | 7/16 | P_gas/[α/M] 16%, m/Teff 15%, P_gas/Teff 11% |
+| Arcturus | 8/16 | 8/16 | n_e/[α/M] 14%, m/[α/M] 12% |
+| 5463 K, logg 3.51, [M/H] −2.10, [α/M] +0.16 | 7/16 | – | P_gas/[α/M] 46%, m/[α/M] 39% |
+| 4462 K, logg 3.63, [M/H] −0.73, [α/M] +0.22 | 9/16 | – | P_gas/[α/M] 13%, P_gas/Teff 11% |
+| 5026 K, logg 1.50, [M/H] −2.33, [α/M] +0.31 | 4/16 | – | m/[α/M] 45% |
+
+**The reference's bias is small.** At the Sun and Arcturus the scores against ATLAS12 are close to those
+against Payne Zero, cell by cell, with the same pass counts. ∂T/∂Teff is 2.5% and 1.9% off. The
+exception is [α/M] at the Sun (P_gas/[α/M] 16% against ATLAS12, 8% against Payne Zero). The weak spots
+are the ones already found: [α/M] everywhere, worst at [M/H] ≈ −2, and [M/H] at [M/H] ≈ −2 (7–22%).
+
+**Head to head with DSS's emulator.** The same ATLAS12 solves are what DSS used to reject its Kurucz-a1
+emulator (`fd/v1_3_report.json`). Rescoring atmojax with that report's band (−4 ≤ log τ ≤ 1) and
+stricter 1% stability threshold, on the 65 cells both scored at these five bases:
+
+| | atmojax | DSS's Kurucz-a1 emulator |
+|---|---|---|
+| better in | **59 of 65 cells** | 6 |
+| median rel-L2 | **4.6%** | 10.4% |
+| worst cell | 54% | 231% |
+| G1 passes (of 80) | **35** | 13 |
+
+atmojax's tangent is better than the emulator DSS measured at every base, by more than 2× in median at
+four of the five. It still fails G1 on most cells.
+
 ---
 
 ## 6. Spectrum-level results (`flux_jacobian.py`, `flux_split.py`)
@@ -638,8 +680,9 @@ re-measured.
    Arcturus confirms this at the atmosphere level for [α/M] (§5.4) without it reaching the H band
    (§6). Cool dwarfs are unmeasured; a `kdwarf` base (4500 K, logg 4.6) is defined in
    `fd_reference.py` but was not run.
-3. **The reference is Payne Zero's own solver, not ATLAS12.** The emulator was trained to imitate this
-   solver, which favours it. Against DSS's ATLAS12 references, agreement could be somewhat lower.
+3. **The reference is mostly Payne Zero's own solver.** The emulator was trained to imitate it, which
+   favours it. §5.5 checks against ATLAS12 at five bases, at the atmosphere level only, with looser
+   ATLAS12 convergence; the bias is small there. Flux-level and CNO results are against Payne Zero only.
 4. **The giant bases are not verified hold-outs.** The Sun matches an excluded reference star. The
    metal-poor giant is an arbitrary in-support point and may lie near training models. Arcturus is not
    one of the excluded stars either; the nearest one is 214 K hotter and 0.34 dex higher in logg.
@@ -707,6 +750,7 @@ for base in sun metalpoor_giant arcturus; do
   python flux_jacobian.py results/runs_cno8/$base && python flux_split.py results/runs_cno8/$base
 done
 python checks.py                             # results/checks.json (DSS checkout optional, via $DSS_REPO)
+python atlas12_compare.py                    # results/atlas12_jacobian.json (needs the DSS checkout's artifacts)
 ```
 
 The recorded solves already exist under `results/runs/`. The analysis steps (`compare.py` onward) can
@@ -733,6 +777,8 @@ therefore applies unchanged to the package.
 | `flux_split.py` | direct versus atmosphere split for [M/H] and [α/M] |
 | `flux_cores.py` | flux-Jacobian scores on strong-line core pixels, with the reference's one-sided spread |
 | `checks.py` | τ-grid alignment, tolerance sensitivity, DSS convention identity |
+| `atlas12_compare.py` | §5.5: scores against DSS's stored ATLAS12 V1.3 solves, and head to head with DSS's emulator |
+| `results/atlas12_jacobian.json` | §5.5 |
 | `results/parity.json` | port parity at five labels |
 | `results/atmosphere_jacobian.json` | §5 tables, including depth-resolved errors |
 | `results/checks.json` | §3 and §4 supporting checks |

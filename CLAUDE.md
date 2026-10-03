@@ -119,6 +119,9 @@ order:
    flux Jacobian into a direct part (abundances change, atmosphere fixed) and an atmosphere-mediated
    part, since the direct part is shared by both arms in step 5 and flatters the emulator's score.
    `flux_cores.py` scores the saved flux Jacobians on strong-line core pixels (Mg b, Ca II triplet).
+   `atlas12_compare.py` scores the five-label Jacobian against DSS's stored ATLAS12 V1.3 solves
+   (`$DSS_REPO/artifacts/phase1/fd/`, no solves run) and head to head with DSS's emulator on its own
+   V1.3 criteria; uses `compare.score`, whose band/stability are parameters.
 7. `checks.py` — supporting sanity checks quoted in the report: tau-grid agreement, solver-tolerance
    sensitivity, and label/abundance-convention parity against
    `differentiable_stellar_spectroscopy` (needs that repo checked out at `$DSS_REPO` or `../`, else

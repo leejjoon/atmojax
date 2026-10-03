@@ -47,14 +47,28 @@ def analyze(d: Path, ji):
     s0 = load(d, "base")
     labels = np.array(F.base_labels(d.name, family))
     J_emu = np.asarray(ji.log_state_jacobian(labels))   # (4, 80, n_labels): d ln(T, P_gas, m, n_e)/d label
-    lt = F.LOG_TAU
-    band = (lt >= BAND[0]) & (lt <= BAND[1])
-    report = {}
-    for lab in F.FAMILIES[family]:
-        i, h, src = F.LABEL_INDEX[lab], F.STEPS[lab], F.run_dir(d, lab)
+
+    def states(lab):
+        src = F.run_dir(d, lab)
         sb0 = s0 if src == d else load(src, "base", warn=False)   # one-sided spread uses its own base
-        sp1, sm1 = load(src, f"{lab}_p1"), load(src, f"{lab}_m1")
-        sp2, sm2 = load(src, f"{lab}_p2"), load(src, f"{lab}_m2")
+        return sb0, [load(src, f"{lab}_{n}") for n in ("p1", "m1", "p2", "m2")]
+
+    report = score(J_emu, F.FAMILIES[family], states)
+    v = np.asarray(ji.state(labels))
+    band = (F.LOG_TAU >= BAND[0]) & (F.LOG_TAU <= BAND[1])
+    vals = {field: float(np.median(np.abs(np.log(v[f, band]) - s0[f, band]))) for f, field in enumerate(FIELDS)}
+    return report, vals
+
+
+def score(J_emu, labs, states, band_log_tau=BAND, stability=STABILITY):
+    """Per-cell scores of J_emu (4, 80, n_labels) against finite differences; states(lab) gives the
+    log-state at the base and at +h, -h, +2h, -2h, each (4, 80) on the canonical grid."""
+    lt = F.LOG_TAU
+    band = (lt >= band_log_tau[0]) & (lt <= band_log_tau[1])
+    report = {}
+    for lab in labs:
+        i, h = F.LABEL_INDEX[lab], F.STEPS[lab]
+        sb0, (sp1, sm1, sp2, sm2) = states(lab)
         Jh = (sp1 - sm1) / (2 * h)
         J2h = (sp2 - sm2) / (4 * h)
         Jrich = (4 * Jh - J2h) / 3
@@ -62,7 +76,7 @@ def analyze(d: Path, ji):
         Jplus, Jminus = (sp1 - sb0) / h, (sb0 - sm1) / h
         for f, field in enumerate(FIELDS):
             cell = {}
-            ok = band & (stab[f] < STABILITY)
+            ok = band & (stab[f] < stability)
             if ok.sum() >= 5:
                 rel, cos = rel_cos(J_emu[f, ok, i], Jrich[f, ok])
                 cell["richardson"] = {"rel_l2": rel, "cosine": cos, "n_trusted_layers": int(ok.sum()),
@@ -80,9 +94,7 @@ def analyze(d: Path, ji):
             cell["central_h"] = {"rel_l2": rel, "cosine": cos, "one_sided_spread": spread,
                                  "rel_l2_by_log_tau": by_depth}
             report[f"{field}/{lab}"] = cell
-    v = np.asarray(ji.state(labels))
-    vals = {field: float(np.median(np.abs(np.log(v[f, band]) - s0[f, band]))) for f, field in enumerate(FIELDS)}
-    return report, vals
+    return report
 
 
 def main(dirs):
