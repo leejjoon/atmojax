@@ -1,0 +1,48 @@
+truth {'teff': 4286.0, 'logg': 1.66, 'mh': -0.52, 'am': 0.3}; start {'teff': 4386.0, 'logg': 1.46, 'mh': -0.37, 'am': 0.21999999999999997}; mock windows [(1000.0, 10922), (1500.0, 10922), (2200.0, 10922)]
+start atmosphere re-solved (510s)
+3 catalogues in 228s; capacities {16: 11776, 64: 1536, 256: 511, 1024: 254, 4096: 31}
+window 0: 10671 of 10922 pixels used
+window 1: 10768 of 10922 pixels used
+window 2: 10807 of 10922 pixels used
+tangent: atmojax /home/jjlee/work/atmojax/validation/work/five_label.npz (atmosphere xi 2 km/s)
+  [state] re-solved at {'teff': np.float64(4385.0), 'logg': np.float64(1.46), 'mh': np.float64(-0.37), 'am': np.float64(0.22)} (499s, route direct, cached=None)
+  [jacobian] at {'teff': np.float64(4385.0), 'logg': np.float64(1.46), 'mh': np.float64(-0.37), 'am': np.float64(0.22)} (9s; {'teff': 'tangent', 'logg': 'tangent', 'mh': 'tangent', 'am': 'tangent'})
+start chi2 13112687.6 at {'teff': np.float64(4386.0), 'logg': np.float64(1.46), 'mh': np.float64(-0.37), 'am': np.float64(0.22)}, v_rad 0.000, xi 1.500
+  outer 0 inner 0: chi2 5153968.4 lambda 2.5e-02 labels [4450.0292, 2.512, -0.6381, 0.1622] v_rad 1.708 xi 2.524 step [64.0292, 1.052, -0.2681, -0.0578] (288s)
+  outer 0 inner 1: chi2 2399507.0 lambda 5.0e-03 labels [4338.3358, 2.4135, -0.9755, 0.2802] v_rad 3.586 xi 2.681 step [-111.6935, -0.0985, -0.3374, 0.118] (24s)
+  outer 0 inner 2: chi2 257558.2 lambda 1.0e-03 labels [4311.5703, 1.696, -0.5856, 0.3065] v_rad 3.702 xi 1.822 step [-26.7655, -0.7175, 0.39, 0.0263] (24s)
+  outer 0 inner 3: chi2 122526.8 lambda 2.0e-04 labels [4287.7785, 1.682, -0.522, 0.2949] v_rad 3.673 xi 2.015 step [-23.7918, -0.014, 0.0636, -0.0116] (24s)
+  outer 0 inner 4: chi2 122457.3 lambda 4.0e-05 labels [4287.637, 1.6854, -0.5207, 0.2934] v_rad 3.672 xi 2.013 step [-0.1415, 0.0033, 0.0013, -0.0015] (24s)
+  outer 0 inner 5: chi2 122457.1 lambda 8.0e-06 labels [4287.7264, 1.6835, -0.521, 0.2936] v_rad 3.672 xi 2.013 step [0.0894, -0.0018, -0.0003, 0.0002] (24s)
+  [state] re-solved at {'teff': np.float64(4290.0), 'logg': np.float64(1.68), 'mh': np.float64(-0.52), 'am': np.float64(0.29)} (270s, route direct, cached=None)
+  [jacobian] at {'teff': np.float64(4290.0), 'logg': np.float64(1.68), 'mh': np.float64(-0.52), 'am': np.float64(0.29)} (0s; {'teff': 'tangent', 'logg': 'tangent', 'mh': 'tangent', 'am': 'tangent'})
+  after the state refresh chi2 121567.0
+  [jacobian] at {'teff': np.float64(4290.0), 'logg': np.float64(1.68), 'mh': np.float64(-0.52), 'am': np.float64(0.29)} (0s; {'teff': 'tangent', 'logg': 'tangent', 'mh': 'tangent', 'am': 'tangent'})
+  outer 1 inner 0: chi2 119395.0 lambda 2.0e-04 labels [4298.9773, 1.694, -0.5128, 0.2871] v_rad 3.672 xi 2.028 step [11.2509, 0.0104, 0.0082, -0.0065] (24s)
+  outer 1 inner 1: chi2 119394.6 lambda 4.0e-05 labels [4299.0396, 1.6934, -0.5128, 0.2871] v_rad 3.672 xi 2.028 step [0.0623, -0.0006, -0.0001, -0.0] (24s)
+  [jacobian] at {'teff': np.float64(4290.0), 'logg': np.float64(1.68), 'mh': np.float64(-0.52), 'am': np.float64(0.29)} (1214s; {'teff': 'central', 'logg': 'central', 'mh': 'central', 'am': 'central'})
+final FD Jacobian (1236s): sigma {'teff': np.float64(0.6659), 'logg': np.float64(0.004), 'mh': np.float64(0.0011), 'am': np.float64(0.001)}
+recovered - truth: {'teff': 13.0396, 'logg': 0.0334, 'mh': 0.0072, 'am': -0.0129} sigma: {'teff': 0.6651, 'logg': 0.004, 'mh': 0.0012, 'am': 0.001} dv_rad -0.028 xi 2.028 chi2_red 3.704 acceptance {'teff': True, 'logg': True, 'mh': True, 'am': True} wall 4041s
+	Command being timed: ".venv/bin/python -u scripts/phase3_v34_fit.py --mock arcturus --key t04286_g+1.66_m-0.52_a+0.30 --offsets 100 -0.2 0.15 -0.08 --concurrent 4 --workdir /home/jjlee/work/atmojax/validation/work/dss_fit/arcturus_hybrid --tag hybridtest_arcturus_hybrid --tangent atmojax --final-fd"
+	User time (seconds): 21408.46
+	System time (seconds): 573.59
+	Percent of CPU this job got: 541%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:07:37
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 16808884
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 65870
+	Minor (reclaiming a frame) page faults: 61503878
+	Voluntary context switches: 6458067
+	Involuntary context switches: 419698
+	Swaps: 0
+	File system inputs: 6466792
+	File system outputs: 45866688
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

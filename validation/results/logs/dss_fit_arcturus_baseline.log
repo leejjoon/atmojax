@@ -1,0 +1,54 @@
+truth {'teff': 4286.0, 'logg': 1.66, 'mh': -0.52, 'am': 0.3}; start {'teff': 4386.0, 'logg': 1.46, 'mh': -0.37, 'am': 0.21999999999999997}; mock windows [(1000.0, 10922), (1500.0, 10922), (2200.0, 10922)]
+start atmosphere re-solved (508s)
+3 catalogues in 229s; capacities {16: 11776, 64: 1536, 256: 511, 1024: 254, 4096: 31}
+window 0: 10671 of 10922 pixels used
+window 1: 10768 of 10922 pixels used
+window 2: 10807 of 10922 pixels used
+  [state] re-solved at {'teff': np.float64(4385.0), 'logg': np.float64(1.46), 'mh': np.float64(-0.37), 'am': np.float64(0.22)} (506s, route direct, cached=None)
+  [jacobian] at {'teff': np.float64(4385.0), 'logg': np.float64(1.46), 'mh': np.float64(-0.37), 'am': np.float64(0.22)} (1057s; {'teff': 'central', 'logg': 'central', 'mh': 'central', 'am': 'central'})
+start chi2 13112388.2 at {'teff': np.float64(4386.0), 'logg': np.float64(1.46), 'mh': np.float64(-0.37), 'am': np.float64(0.22)}, v_rad 0.000, xi 1.500
+  outer 0 inner 0: chi2 5328902.4 lambda 2.5e-02 labels [4473.387, 2.5328, -0.6262, 0.1602] v_rad 1.708 xi 2.534 step [87.387, 1.0728, -0.2562, -0.0598] (274s)
+  outer 0 inner 1: chi2 2758951.0 lambda 5.0e-03 labels [4361.3414, 2.4801, -0.9957, 0.2541] v_rad 3.553 xi 2.705 step [-112.0457, -0.0527, -0.3695, 0.0939] (25s)
+  outer 0 inner 2: chi2 282238.4 lambda 1.0e-03 labels [4316.5044, 1.7634, -0.5804, 0.3146] v_rad 3.712 xi 1.823 step [-44.837, -0.7167, 0.4153, 0.0605] (25s)
+  outer 0 inner 3: chi2 124346.1 lambda 2.0e-04 labels [4291.5735, 1.6276, -0.5297, 0.3015] v_rad 3.673 xi 2.014 step [-24.9309, -0.1358, 0.0507, -0.0131] (25s)
+  outer 0 inner 4: chi2 123873.3 lambda 4.0e-05 labels [4286.7595, 1.722, -0.5173, 0.288] v_rad 3.672 xi 2.013 step [-4.814, 0.0944, 0.0124, -0.0135] (25s)
+  outer 0 inner 5: chi2 123658.1 lambda 8.0e-06 labels [4289.3403, 1.6587, -0.5269, 0.2973] v_rad 3.672 xi 2.011 step [2.5807, -0.0634, -0.0096, 0.0093] (25s)
+  outer 0 inner 6: chi2 123603.5 lambda 1.6e-06 labels [4287.0919, 1.7001, -0.5206, 0.2911] v_rad 3.672 xi 2.011 step [-2.2483, 0.0414, 0.0064, -0.0062] (25s)
+  outer 0 inner 7: chi2 123568.9 lambda 3.2e-07 labels [4288.3928, 1.6711, -0.5249, 0.2953] v_rad 3.672 xi 2.010 step [1.3008, -0.029, -0.0044, 0.0043] (25s)
+  outer 0 inner 8: chi2 123556.2 lambda 6.4e-08 labels [4287.3918, 1.6909, -0.5219, 0.2924] v_rad 3.672 xi 2.011 step [-1.001, 0.0199, 0.003, -0.003] (25s)
+  outer 0 inner 9: chi2 123549.0 lambda 1.3e-08 labels [4288.0392, 1.677, -0.524, 0.2944] v_rad 3.672 xi 2.010 step [0.6474, -0.0139, -0.0021, 0.0021] (25s)
+  outer 0 inner 10: chi2 123545.9 lambda 2.6e-09 labels [4287.565, 1.6867, -0.5226, 0.293] v_rad 3.672 xi 2.011 step [-0.4742, 0.0097, 0.0015, -0.0014] (25s)
+  outer 0 inner 11: chi2 123544.2 lambda 1.0e-09 labels [4287.8847, 1.6799, -0.5236, 0.294] v_rad 3.672 xi 2.010 step [0.3197, -0.0068, -0.001, 0.001] (25s)
+  outer 0 inner 12: chi2 123543.5 lambda 1.0e-09 labels [4287.656, 1.6846, -0.5229, 0.2933] v_rad 3.672 xi 2.011 step [-0.2287, 0.0047, 0.0007, -0.0007] (25s)
+  outer 0 inner 13: chi2 123543.1 lambda 1.0e-09 labels [4287.8132, 1.6813, -0.5234, 0.2938] v_rad 3.672 xi 2.011 step [0.1571, -0.0033, -0.0005, 0.0005] (25s)
+  outer 0 inner 14: chi2 123542.9 lambda 1.0e-09 labels [4287.7021, 1.6836, -0.523, 0.2935] v_rad 3.672 xi 2.011 step [-0.111, 0.0023, 0.0003, -0.0003] (25s)
+  outer 0 inner 15: chi2 123542.8 lambda 1.0e-09 labels [4287.7791, 1.682, -0.5233, 0.2937] v_rad 3.672 xi 2.011 step [0.0769, -0.0016, -0.0002, 0.0002] (25s)
+  [state] re-solved at {'teff': np.float64(4290.0), 'logg': np.float64(1.68), 'mh': np.float64(-0.52), 'am': np.float64(0.29)} (258s, route direct, cached=None)
+  after the state refresh chi2 121607.0
+  [jacobian] at {'teff': np.float64(4290.0), 'logg': np.float64(1.68), 'mh': np.float64(-0.52), 'am': np.float64(0.29)} (1223s; {'teff': 'central', 'logg': 'central', 'mh': 'central', 'am': 'central'})
+  outer 1 inner 0: chi2 119383.1 lambda 2.0e-04 labels [4299.2572, 1.6946, -0.5126, 0.2872] v_rad 3.672 xi 2.028 step [11.4782, 0.0125, 0.0107, -0.0065] (25s)
+  outer 1 inner 1: chi2 119382.7 lambda 4.0e-05 labels [4299.2976, 1.6941, -0.5126, 0.2871] v_rad 3.672 xi 2.028 step [0.0404, -0.0004, -0.0, -0.0] (25s)
+recovered - truth: {'teff': 13.2976, 'logg': 0.0341, 'mh': 0.0074, 'am': -0.0129} sigma: {'teff': 0.6658, 'logg': 0.004, 'mh': 0.0011, 'am': 0.001} dv_rad -0.028 xi 2.028 chi2_red 3.704 acceptance {'teff': True, 'logg': True, 'mh': True, 'am': True} wall 5338s
+	Command being timed: ".venv/bin/python -u scripts/phase3_v34_fit.py --mock arcturus --key t04286_g+1.66_m-0.52_a+0.30 --offsets 100 -0.2 0.15 -0.08 --concurrent 4 --workdir /home/jjlee/work/atmojax/validation/work/dss_fit/arcturus_baseline --tag hybridtest_arcturus_baseline"
+	User time (seconds): 35689.03
+	System time (seconds): 889.66
+	Percent of CPU this job got: 683%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:29:13
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 16809360
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 56398
+	Minor (reclaiming a frame) page faults: 92753404
+	Voluntary context switches: 8824962
+	Involuntary context switches: 650133
+	Swaps: 0
+	File system inputs: 5235152
+	File system outputs: 76669008
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

@@ -70,7 +70,8 @@ in 59 of 65 cells (median error 4.6% against 10.4%).
 
 **Good for:**
 - driving gradient-based fits;
-- serving as the tangent of a solver-valued "hybrid" seam.
+- serving as the tangent of a solver-valued "hybrid" seam. In DSS's own fitter this recovered the same
+  labels as the finite-difference seam on two mocks, with 8 fewer ATLAS12 solves per fit (report §7.1).
 
 **Not good for:**
 - final uncertainties;

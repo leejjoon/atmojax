@@ -49,7 +49,8 @@ the window-averaged flux Jacobian in the J and Ks bands or at 420–440, 510–5
 Strong-line cores are the exception: in the Mg b and Ca II triplet cores the logg and [α/M] flux derivatives are 10–60% off
 (§6.2).
 
-**Recommendation for DSS.** Use a hybrid seam:
+**Recommendation for DSS.** Use a hybrid seam (tested in DSS's own fitter in §7.1: same labels,
+8 fewer ATLAS12 solves per fit):
 - **Value:** take the atmosphere from a converged solve, as DSS does now.
 - **Tangent during the fit:** take it from the emulator's autodiff.
 - **At convergence:** recompute the finite-difference seam Jacobian once, for the uncertainties.
@@ -669,6 +670,46 @@ source behind DSS's seam it would be in-process and warm-started by the same ini
 consistent enough with DSS's pyKurucz ATLAS12 to keep Phase 3's 0.06 K seam budget would have to be
 re-measured.
 
+### 7.1 A hybrid-seam fit in DSS
+
+The recommendation was tested in DSS's own fitter, on branch `atmojax-hybrid-tangent` of
+`differentiable_stellar_spectroscopy` (commit `09dc6a8`). `LMFit` takes an optional tangent; with it
+the seam Jacobian is s0 · (atmojax's d ln state/d label) at the linearisation centre, where s0 is the
+ATLAS12 state there. It costs no solves, so it is re-formed at every state re-solve and the eight-solve
+finite-difference Jacobian is never formed during the fit. `--final-fd` forms that Jacobian once, at
+the answer, for the uncertainties.
+
+**Test.** DSS's V3.4 mocks (three 16k-point windows at 1000, 1500 and 2200 nm, R = 100,000, S/N 300) at
+the recorded start offsets, fitting Teff, logg, [M/H], [α/M], v_rad, ξ and continua. Both arms ran on
+today's code, each with a fresh, empty ATLAS12 cache, side by side with 4 concurrent solves each
+(results in DSS's `artifacts/phase3/metrics/v34_fit_hybridtest_*.json`; logs in
+`results/logs/dss_fit_*.log`).
+
+| | Arcturus, FD seam | Arcturus, hybrid | Sun, FD seam | Sun, hybrid |
+|---|---|---|---|---|
+| Teff − truth | +13.30 K | +13.04 K | +34.89 K | +34.44 K |
+| logg / [M/H] / [α/M] − truth | +.0341 / +.0074 / −.0129 | +.0334 / +.0072 / −.0129 | +.0112 / +.0141 / +.0007 | +.0106 / +.0134 / +.0023 |
+| σ(Teff) | 0.666 K | 0.666 K | 1.61 K | 1.56 K |
+| χ²_red | 3.7040 | 3.7043 | 1.8559 | 1.8557 |
+| inner iterations | 18 | 8 | 9 | 10 |
+| ATLAS12 solves | 20 | 12 | 21 | 13 |
+| fit phase | 3961 s | **1428 s** | 3607 s | **1859 s** |
+| total wall time | 5338 s | **4041 s** | 4436 s | **3471 s** |
+
+**Reading.**
+- **Same answer.** The labels agree within 0.4σ in Teff (0.26 K and 0.45 K) and within 1.1σ at worst
+  (the Sun's [α/M]); χ²_red agrees to four digits; both arms stop on the step tolerance with no refresh
+  pending. The Sun's Teff misses DSS's 20 K acceptance in both arms, from the model's known
+  hydrogen-profile systematic, not the seam. This holds at the Sun, where atmojax's P_gas/Teff is about
+  10% off at the atmosphere level (§5.1).
+- **Uncertainties.** σ from the final finite-difference Jacobian; σ from the emulator's own Jacobian is
+  within 0.1% (Arcturus) and 4% (Sun) of it.
+- **Cost.** One eight-solve Jacobian saved per fit: 20 → 12 and 21 → 13 solves, the fit phase 1.9–2.8×
+  faster, the total 22–24% shorter. Each arm still pays for the start atmosphere and three state
+  re-solves. In a multistart campaign, with the final finite-difference Jacobian formed only for the
+  accepted fit, every start's Jacobians would be saved.
+- **Scope.** Two mocks, one start each, the five-label initializer.
+
 ---
 
 ## 8. Limitations
@@ -698,8 +739,8 @@ re-measured.
 7. **Not the direct-abundance initializer.** The five-label and CNO initializers were tested, the CNO
    one in the H band only (§6.3). The direct-abundance initializer was not. Its mode, with about 80 [X/Fe] labels, is where autodiff would save the most
    (about 80 solves per Jacobian), and it is unmeasured.
-8. **The hybrid seam itself was not run inside DSS.** §7 is a recommendation derived from these
-   measurements, not a demonstrated DSS fit.
+8. **The hybrid seam was run inside DSS on two mocks only** (§7.1), on a DSS branch, not merged.
+   Multistart campaigns and real spectra were not tested.
 
 ---
 

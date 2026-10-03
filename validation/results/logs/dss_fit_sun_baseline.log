@@ -1,0 +1,47 @@
+truth {'teff': 5777.0, 'logg': 4.44, 'mh': 0.0, 'am': 0.0}; start {'teff': 5657.0, 'logg': 4.640000000000001, 'mh': -0.15, 'am': 0.08}; mock windows [(1000.0, 10922), (1500.0, 10922), (2200.0, 10922)]
+start atmosphere re-solved (375s)
+3 catalogues in 231s; capacities {16: 10240, 64: 1536, 256: 511, 1024: 127, 4096: 31}
+window 0: 10496 of 10922 pixels used
+window 1: 10788 of 10922 pixels used
+window 2: 10743 of 10922 pixels used
+  [state] re-solved at {'teff': np.float64(5655.0), 'logg': np.float64(4.64), 'mh': np.float64(-0.15), 'am': np.float64(0.08)} (356s, route direct, cached=None)
+  [jacobian] at {'teff': np.float64(5655.0), 'logg': np.float64(4.64), 'mh': np.float64(-0.15), 'am': np.float64(0.08)} (896s; {'teff': 'central', 'logg': 'central', 'mh': 'central', 'am': 'central'})
+start chi2 2642232.6 at {'teff': np.float64(5657.0), 'logg': np.float64(4.64), 'mh': np.float64(-0.15), 'am': np.float64(0.08)}, v_rad 0.000, xi 1.500
+  outer 0 inner 0: chi2 762717.6 lambda 2.0e-04 labels [5905.6901, 5.2304, -0.2153, 0.0021] v_rad 2.560 xi 3.032 step [248.6901, 0.5904, -0.0653, -0.0779] (275s)
+  outer 0 inner 1: chi2 239411.6 lambda 4.0e-05 labels [5964.5012, 4.7268, -0.0841, -0.0385] v_rad 4.094 xi 1.894 step [58.8111, -0.5036, 0.1312, -0.0406] (23s)
+  outer 0 inner 2: chi2 68035.5 lambda 8.0e-06 labels [5838.6312, 4.4941, 0.0444, -0.0029] v_rad 3.636 xi 2.130 step [-125.87, -0.2327, 0.1285, 0.0356] (23s)
+  outer 0 inner 3: chi2 59235.3 lambda 1.6e-06 labels [5798.4213, 4.497, 0.0114, -0.0023] v_rad 3.688 xi 2.066 step [-40.2099, 0.0029, -0.033, 0.0006] (23s)
+  outer 0 inner 4: chi2 59221.1 lambda 3.2e-07 labels [5796.6322, 4.4975, 0.0108, -0.0027] v_rad 3.689 xi 2.062 step [-1.7891, 0.0005, -0.0006, -0.0003] (23s)
+  outer 0 inner 5: chi2 59221.1 lambda 6.4e-08 labels [5796.588, 4.4975, 0.0108, -0.0027] v_rad 3.689 xi 2.062 step [-0.0443, -0.0, -0.0, 0.0] (23s)
+  [state] re-solved at {'teff': np.float64(5795.0), 'logg': np.float64(4.5), 'mh': np.float64(0.01), 'am': np.float64(-0.0)} (509s, route direct, cached=None)
+  after the state refresh chi2 60750.1
+  [jacobian] at {'teff': np.float64(5795.0), 'logg': np.float64(4.5), 'mh': np.float64(0.01), 'am': np.float64(-0.0)} (863s; {'teff': 'central', 'logg': 'central', 'mh': 'central', 'am': 'central'})
+  outer 1 inner 0: chi2 59399.4 lambda 2.0e-04 labels [5811.9457, 4.4541, 0.0144, 0.0004] v_rad 3.690 xi 2.074 step [15.3577, -0.0434, 0.0036, 0.0031] (23s)
+  outer 1 inner 1: chi2 59398.4 lambda 4.0e-05 labels [5811.4019, 4.4529, 0.0143, 0.0006] v_rad 3.689 xi 2.074 step [-0.5438, -0.0012, -0.0001, 0.0001] (23s)
+  [state] re-solved at {'teff': np.float64(5810.0), 'logg': np.float64(4.45), 'mh': np.float64(0.01), 'am': np.float64(0.0)} (342s, route direct, cached=None)
+  after the state refresh chi2 59412.9
+  outer 2 inner 0: chi2 59409.5 lambda 2.0e-04 labels [5811.8942, 4.4512, 0.0141, 0.0007] v_rad 3.689 xi 2.075 step [0.4923, -0.0017, -0.0002, 0.0001] (23s)
+recovered - truth: {'teff': 34.8942, 'logg': 0.0112, 'mh': 0.0141, 'am': 0.0007} sigma: {'teff': 1.6087, 'logg': 0.003, 'mh': 0.0011, 'am': 0.0014} dv_rad -0.011 xi 2.075 chi2_red 1.856 acceptance {'teff': False, 'logg': True, 'mh': True, 'am': True} wall 4436s
+	Command being timed: ".venv/bin/python -u scripts/phase3_v34_fit.py --mock sun --key t05777_g+4.44_m+0.00_a+0.00 --offsets -120 0.2 -0.15 0.08 --concurrent 4 --workdir /home/jjlee/work/atmojax/validation/work/dss_fit/sun_baseline --tag hybridtest_sun_baseline"
+	User time (seconds): 31326.48
+	System time (seconds): 679.19
+	Percent of CPU this job got: 718%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:14:12
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 16773308
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 10462
+	Minor (reclaiming a frame) page faults: 101011663
+	Voluntary context switches: 8546270
+	Involuntary context switches: 979349
+	Swaps: 0
+	File system inputs: 26080
+	File system outputs: 14790968
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
