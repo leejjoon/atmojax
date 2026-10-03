@@ -56,9 +56,9 @@ prediction, not a converged atmosphere.
 
 ## How good are the derivatives?
 
-[`validation/REPORT.md`](validation/REPORT.md) measures them for the five-label initializer. They are
-compared against finite differences of 51 re-converged Payne Zero atmospheres (the Sun, a metal-poor
-giant and Arcturus), at the atmosphere level and on H-band (1550–1600 nm) spectra.
+[`validation/REPORT.md`](validation/REPORT.md) measures them for the five-label initializer, and for the
+CNO one in the H band. They are compared against finite differences of re-converged Payne Zero
+atmospheres (the Sun, a metal-poor giant and Arcturus), at the atmosphere level and on spectra.
 
 | | Sun | metal-poor giant | Arcturus |
 |---|---|---|---|
@@ -76,11 +76,15 @@ giant and Arcturus), at the atmosphere level and on H-band (1550–1600 nm) spec
   at the Sun;
 - [α/M] derivatives of the atmosphere itself, worst at the cool giant (∂T/∂[α/M] 40–60% off above
   log τ ≈ −1), although little of that reaches the H-band spectrum;
-- strong-line cores (Mg b, Ca II triplet), where the logg and [α/M] flux derivatives are 10–60% off.
+- strong-line cores (Mg b, Ca II triplet), where the logg and [α/M] flux derivatives are 10–60% off;
+- the CNO initializer's derivatives with respect to C, N and O, which are wrong at the atmosphere level
+  (sometimes in sign) and up to 21% off in H-band flux. Its Teff, logg and [M/H] derivatives are as
+  good as or better than the five-label initializer's.
   Window-averaged flux Jacobians in J, Ks and at 420–440, 510–520 and 846–870 nm are as good as the
   H band's.
 
-**Not yet measured:** cool dwarfs, the UV, and the CNO initializer's derivatives. See the report for the full
+**Not yet measured:** cool dwarfs, the UV, the CNO initializer outside the H band, and the
+direct-abundance initializer. See the report for the full
 tables, method and limitations.
 
 ## Tests

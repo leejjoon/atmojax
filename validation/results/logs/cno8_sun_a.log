@@ -1,0 +1,41 @@
+[sun] base labels=[5777.0, 4.44, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0]
+   converged=True iters=32 wall=328s dT_deep=2.40775904582465e-06
+[sun] am_p1 labels=[5777.0, 4.44, 0.0, 0.05, 1.0, 0.0, 0.0, 0.0]
+   converged=True iters=35 wall=333s dT_deep=2.423398082455911e-06
+[sun] am_m1 labels=[5777.0, 4.44, 0.0, -0.05, 1.0, 0.0, 0.0, 0.0]
+   converged=True iters=22 wall=210s dT_deep=4.632514536625254e-06
+[sun] am_p2 labels=[5777.0, 4.44, 0.0, 0.1, 1.0, 0.0, 0.0, 0.0]
+   converged=True iters=17 wall=175s dT_deep=3.4433901688633877e-06
+[sun] am_m2 labels=[5777.0, 4.44, 0.0, -0.1, 1.0, 0.0, 0.0, 0.0]
+   converged=True iters=46 wall=463s dT_deep=1.837788569518687e-06
+[sun] cm_p1 labels=[5777.0, 4.44, 0.0, 0.0, 1.0, 0.05, 0.0, 0.0]
+   converged=True iters=19 wall=181s dT_deep=4.086955324777288e-06
+[sun] cm_m1 labels=[5777.0, 4.44, 0.0, 0.0, 1.0, -0.05, 0.0, 0.0]
+   converged=True iters=24 wall=226s dT_deep=3.964011130586885e-06
+[sun] cm_p2 labels=[5777.0, 4.44, 0.0, 0.0, 1.0, 0.1, 0.0, 0.0]
+   converged=False iters=60 wall=563s dT_deep=5.8502842472868145e-06
+[sun] cm_m2 labels=[5777.0, 4.44, 0.0, 0.0, 1.0, -0.1, 0.0, 0.0]
+   converged=True iters=27 wall=252s dT_deep=3.726607404983004e-06
+	Command being timed: "python -u fd_reference.py solve --family cno8 --base sun --only base,am_p1,am_m1,am_p2,am_m2,cm_p1,cm_m1,cm_p2,cm_m2,"
+	User time (seconds): 5670.21
+	System time (seconds): 209.82
+	Percent of CPU this job got: 214%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 45:35.42
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 14487916
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 5437
+	Minor (reclaiming a frame) page faults: 33081283
+	Voluntary context switches: 37777
+	Involuntary context switches: 16514
+	Swaps: 0
+	File system inputs: 39744
+	File system outputs: 376
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

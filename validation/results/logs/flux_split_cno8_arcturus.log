@@ -1,0 +1,5 @@
+arcturus/mh: atmosphere_share_of_total 0.8630  rel_l2_emulator_on_atmosphere_part 0.0063  cosine_emulator_on_atmosphere_part 1.0000
+arcturus/am: atmosphere_share_of_total 1.0944  rel_l2_emulator_on_atmosphere_part 0.0286  cosine_emulator_on_atmosphere_part 0.9999
+arcturus/cm: atmosphere_share_of_total 0.0302  rel_l2_emulator_on_atmosphere_part 0.2601  cosine_emulator_on_atmosphere_part 0.9774
+arcturus/nm: atmosphere_share_of_total 0.0175  rel_l2_emulator_on_atmosphere_part 2.2911  cosine_emulator_on_atmosphere_part -0.8673
+arcturus/om: atmosphere_share_of_total 0.0101  rel_l2_emulator_on_atmosphere_part 1.7800  cosine_emulator_on_atmosphere_part -0.0869

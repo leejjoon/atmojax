@@ -1,0 +1,27 @@
+{
+ "mh": {
+  "atmosphere_share_of_total": 0.587555960868102,
+  "rel_l2_emulator_on_atmosphere_part": 0.015611023064629567,
+  "cosine_emulator_on_atmosphere_part": 0.999909897702587
+ },
+ "am": {
+  "atmosphere_share_of_total": 0.7399191922367458,
+  "rel_l2_emulator_on_atmosphere_part": 0.10458278975443445,
+  "cosine_emulator_on_atmosphere_part": 0.9998759154183291
+ },
+ "cm": {
+  "atmosphere_share_of_total": 0.2133065506697323,
+  "rel_l2_emulator_on_atmosphere_part": 0.4978795111033048,
+  "cosine_emulator_on_atmosphere_part": 0.9656131535971335
+ },
+ "nm": {
+  "atmosphere_share_of_total": 0.0708918198475168,
+  "rel_l2_emulator_on_atmosphere_part": 0.5816865886877832,
+  "cosine_emulator_on_atmosphere_part": 0.8134514898382377
+ },
+ "om": {
+  "atmosphere_share_of_total": 0.05705959915947297,
+  "rel_l2_emulator_on_atmosphere_part": 3.595784517670343,
+  "cosine_emulator_on_atmosphere_part": 0.2332574676533065
+ }
+}

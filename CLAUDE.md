@@ -97,19 +97,28 @@ order:
 2. `fd_reference.py solve --base {sun,arcturus,kdwarf,metalpoor_giant}` — resumable: for a base star
    and each label, re-converges Payne Zero's atmosphere solver at `label +- h` and `+- 2h` (fresh
    emulator warm start, tight tolerance), interpolates onto the canonical tau grid, and writes one
-   `.npz` per perturbation under `results/runs/<base>/`.
+   `.npz` per perturbation under `results/runs/<base>/`. `--family cno8` instead writes the CNO
+   initializer's references to `results/runs_cno8/<base>/` (C/N/O, and alpha with O held fixed) and
+   reuses the five-label teff/logg/mh solves via `fd_reference.run_dir`; the scripts below infer the
+   family from the directory (`fd_reference.family_of`). Labels are stored as
+   `(teff, logg, mh, am, vmic[, cm, nm, om])`, so `LABEL_INDEX` is also the Jacobian column.
 3. `parity.py` — exports the five-label weights to `work/five_label.npz` (what `common.initializer()`
-   loads) and records direct-prediction parity against Payne Zero's own `predict()`.
+   loads; `initializer("cno8")` needs `atmojax-export cno8 work/cno8.npz`) and records
+   direct-prediction parity against Payne Zero's own `predict()`.
 4. `compare.py results/runs/<base>...` — the core accuracy report: atmojax's AD Jacobian vs. two
    finite-difference references (Richardson-extrapolated `(4J(h)-J(2h))/3`, and a central-difference
    `J(h)` with its own one-sided-spread uncertainty), scored over `-3 <= log_tau <= 1` using DSS Gate
-   G1/V1.3 thresholds (rel-L2 < 5%, cosine > 0.995). Writes `results/atmosphere_jacobian.json`.
+   G1/V1.3 thresholds (rel-L2 < 5%, cosine > 0.995). Writes `results/atmosphere_jacobian.json`
+   (`atmosphere_jacobian_cno8.json` for `runs_cno8` dirs).
 5. `flux_jacobian.py results/runs/<base>` — does the atmosphere-level Jacobian translate into a
    correct *spectrum* Jacobian? Perturbs a converged base atmosphere along atmojax's AD tangent vs.
    re-synthesizing flux from fully re-converged +-h atmospheres (needs `payne_zero_synthesis`).
-6. `flux_split.py results/runs/<base>` — for composition labels ([M/H], [alpha/M]) only: splits the
+   `--wl` picks the band; non-H-band outputs get a `_<band>nm` suffix (`band_suffix`).
+6. `flux_split.py results/runs/<base>` — for composition labels ([M/H], [alpha/M], plus C/N/O for
+   cno8) only, after `flux_jacobian.py` with the same `--wl`: splits the
    flux Jacobian into a direct part (abundances change, atmosphere fixed) and an atmosphere-mediated
    part, since the direct part is shared by both arms in step 5 and flatters the emulator's score.
+   `flux_cores.py` scores the saved flux Jacobians on strong-line core pixels (Mg b, Ca II triplet).
 7. `checks.py` — supporting sanity checks quoted in the report: tau-grid agreement, solver-tolerance
    sensitivity, and label/abundance-convention parity against
    `differentiable_stellar_spectroscopy` (needs that repo checked out at `$DSS_REPO` or `../`, else

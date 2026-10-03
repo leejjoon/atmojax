@@ -32,9 +32,10 @@ def band_suffix(wl) -> str:
 def abundances(labels):
     from payne_zero_atmosphere import linear_elemental_abundances
     from payne_zero_atmosphere.warm_start import emulator_warm_start_model
-    t, g, mh, am, xi = labels
+    t, g, mh, am, xi = labels[:5]
+    cno = dict(zip(("carbon_enhancement", "nitrogen_enhancement", "oxygen_enhancement"), map(float, labels[5:])))
     atm, _ = emulator_warm_start_model(effective_temperature=t, log_surface_gravity=g, metallicity=mh,
-                                       alpha_enhancement=am, microturbulence_km_s=xi, device="cpu")
+                                       alpha_enhancement=am, microturbulence_km_s=xi, device="cpu", **cno)
     return linear_elemental_abundances(atm)
 
 
@@ -57,19 +58,19 @@ def main():
     p.add_argument("base_dir")
     p.add_argument("--wl", type=float, nargs=2, default=H_BAND)
     p.add_argument("--r-grid", type=float, default=100000.0)
-    p.add_argument("--labels", default="teff,logg,mh,am")
+    p.add_argument("--labels", default="", help="default: every label of the base directory's family")
     a = p.parse_args()
     d = Path(a.base_dir)
+    family = F.family_of(d)
     sfx = band_suffix(a.wl)
-    base_labels = np.array(F.BASES[d.name])
+    base_labels = np.array(F.base_labels(d.name, family))
     xi = base_labels[4]
-    Je = np.asarray(initializer().log_state_jacobian(base_labels))   # (4, 80, 5)
+    Je = np.asarray(initializer(family).log_state_jacobian(base_labels))   # (4, 80, n_labels)
     b = native(np.load(d / "base.npz"))
     results = {}
-    for lab in a.labels.split(","):
-        i = F.LABELS.index(lab)
-        h = F.STEPS[lab]
-        zp, zm = np.load(d / f"{lab}_p1.npz"), np.load(d / f"{lab}_m1.npz")
+    for lab in (a.labels.split(",") if a.labels else F.FAMILIES[family]):
+        i, h, src = F.LABEL_INDEX[lab], F.STEPS[lab], F.run_dir(d, lab)
+        zp, zm = np.load(src / f"{lab}_p1.npz"), np.load(src / f"{lab}_m1.npz")
         def usable(z):  # converged, or stopped within 4x of the 5e-6 target (still 25x tighter than production)
             dt = json.loads(str(z["diagnostics"])).get("deep_layer_relative_temperature_change", 1.0)
             return bool(z["converged"]) or float(dt) < 2e-5

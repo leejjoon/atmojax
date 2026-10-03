@@ -10,7 +10,8 @@ line-forming band -3 <= log tau_Ross <= 1.  Two references per cell:
     differences (s(+h) - s0)/h and (s0 - s(-h))/h.  An emulator error comparable to that spread
     is inside the reference's noise and cannot be called a failure.
 
-    python compare.py results/runs/sun results/runs/metalpoor_giant
+    python compare.py results/runs/sun results/runs/metalpoor_giant              # atmosphere_jacobian.json
+    python compare.py results/runs_cno8/sun results/runs_cno8/metalpoor_giant    # atmosphere_jacobian_cno8.json
 """
 from __future__ import annotations
 
@@ -42,21 +43,23 @@ def rel_cos(a, r):
 
 
 def analyze(d: Path, ji):
+    family = F.family_of(d)
     s0 = load(d, "base")
-    labels = np.array(F.BASES[d.name])
-    J_emu = np.asarray(ji.log_state_jacobian(labels))   # (4, 80, 5): d ln(T, P_gas, m, n_e)/d label
+    labels = np.array(F.base_labels(d.name, family))
+    J_emu = np.asarray(ji.log_state_jacobian(labels))   # (4, 80, n_labels): d ln(T, P_gas, m, n_e)/d label
     lt = F.LOG_TAU
     band = (lt >= BAND[0]) & (lt <= BAND[1])
     report = {}
-    for i, lab in enumerate(F.LABELS):
-        h = F.STEPS[lab]
-        sp1, sm1 = load(d, f"{lab}_p1"), load(d, f"{lab}_m1")
-        sp2, sm2 = load(d, f"{lab}_p2"), load(d, f"{lab}_m2")
+    for lab in F.FAMILIES[family]:
+        i, h, src = F.LABEL_INDEX[lab], F.STEPS[lab], F.run_dir(d, lab)
+        sb0 = s0 if src == d else load(src, "base", warn=False)   # one-sided spread uses its own base
+        sp1, sm1 = load(src, f"{lab}_p1"), load(src, f"{lab}_m1")
+        sp2, sm2 = load(src, f"{lab}_p2"), load(src, f"{lab}_m2")
         Jh = (sp1 - sm1) / (2 * h)
         J2h = (sp2 - sm2) / (4 * h)
         Jrich = (4 * Jh - J2h) / 3
         stab = np.abs(Jh - J2h) / np.maximum(np.abs(Jrich), 1e-30)
-        Jplus, Jminus = (sp1 - s0) / h, (s0 - sm1) / h
+        Jplus, Jminus = (sp1 - sb0) / h, (sb0 - sm1) / h
         for f, field in enumerate(FIELDS):
             cell = {}
             ok = band & (stab[f] < STABILITY)
@@ -83,11 +86,14 @@ def analyze(d: Path, ji):
 
 
 def main(dirs):
-    ji = initializer()
+    dirs = [Path(d) for d in dirs]
+    (family,) = {F.family_of(d) for d in dirs}
+    ji = initializer(family)
     full = {"band_log_tau": BAND, "stability_threshold": STABILITY, "bases": {}}
-    for d in map(Path, dirs):
+    for d in dirs:
         rep, vals = analyze(d, ji)
-        full["bases"][d.name] = {"labels": F.BASES[d.name], "value_median_abs_dln": vals, "jacobian": rep}
+        full["bases"][d.name] = {"labels": list(F.base_labels(d.name, family)), "value_median_abs_dln": vals,
+                                 "jacobian": rep}
         print(f"\n== {d.name}  emulator value error, median |d ln|: " + "  ".join(f"{k} {v:.1e}" for k, v in vals.items()))
         print(f"{'cell':12s} | {'Richardson':^26s} | {'central +-h':^30s}")
         print(f"{'':12s} | {'rel':>6s} {'cos':>7s} {'n':>3s} {'pass':>5s} | {'rel':>6s} {'cos':>7s} {'ref-spread':>11s}")
@@ -96,7 +102,7 @@ def main(dirs):
             rr = (f"{r['rel_l2']:6.3f} {r['cosine']:7.4f} {r['n_trusted_layers']:3d} {'PASS' if r['passes_G1'] else 'fail':>5s}"
                   if "rel_l2" in r else f"{'(' + str(r['n_trusted_layers']) + ' layers)':>26s}")
             print(f"{k:12s} | {rr} | {h['rel_l2']:6.3f} {h['cosine']:7.4f} {h['one_sided_spread']:11.3f}")
-    out = RESULTS / "atmosphere_jacobian.json"
+    out = RESULTS / ("atmosphere_jacobian.json" if family == "five_label" else f"atmosphere_jacobian_{family}.json")
     out.write_text(json.dumps(full, indent=1))
     print(f"\nwrote {out}")
 

@@ -15,7 +15,6 @@ jax.config.update("jax_enable_x64", True)
 HERE = Path(__file__).resolve().parent
 RESULTS = HERE / "results"
 WORK = Path(os.environ.get("ATMOJAX_VALIDATION_WORK", HERE / "work"))
-WEIGHTS = WORK / "five_label.npz"
 
 
 def payne_zero_data_root() -> Path:
@@ -23,9 +22,11 @@ def payne_zero_data_root() -> Path:
     return data_root()
 
 
-def initializer():
-    """The five-label atmojax initializer, exactly as validated (float32 MLP, as in Payne Zero)."""
+def initializer(family: str = "five_label"):
+    """The atmojax initializer under test, exactly as validated (float32 MLP, as in Payne Zero)."""
     from atmojax import AtmosphereInitializer
-    if not WEIGHTS.exists():
-        raise FileNotFoundError(f"{WEIGHTS} missing: run `python parity.py` (exports the weights) first")
-    return AtmosphereInitializer(WEIGHTS)
+    weights = WORK / f"{family}.npz"
+    if not weights.exists():
+        how = "python parity.py" if family == "five_label" else f"atmojax-export {family} {weights}"
+        raise FileNotFoundError(f"{weights} missing: run `{how}` (exports the weights) first")
+    return AtmosphereInitializer(weights)

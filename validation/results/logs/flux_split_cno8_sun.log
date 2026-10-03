@@ -1,0 +1,5 @@
+sun/mh: atmosphere_share_of_total 0.5876  rel_l2_emulator_on_atmosphere_part 0.0156  cosine_emulator_on_atmosphere_part 0.9999
+sun/am: atmosphere_share_of_total 0.7399  rel_l2_emulator_on_atmosphere_part 0.1046  cosine_emulator_on_atmosphere_part 0.9999
+sun/cm: atmosphere_share_of_total 0.2133  rel_l2_emulator_on_atmosphere_part 0.4979  cosine_emulator_on_atmosphere_part 0.9656
+sun/nm: atmosphere_share_of_total 0.0709  rel_l2_emulator_on_atmosphere_part 0.5817  cosine_emulator_on_atmosphere_part 0.8135
+sun/om: atmosphere_share_of_total 0.0571  rel_l2_emulator_on_atmosphere_part 3.5958  cosine_emulator_on_atmosphere_part 0.2333

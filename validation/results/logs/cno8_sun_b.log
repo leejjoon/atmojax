@@ -1,0 +1,39 @@
+[sun] nm_p1 labels=[5777.0, 4.44, 0.0, 0.0, 1.0, 0.0, 0.05, 0.0]
+   converged=True iters=32 wall=332s dT_deep=2.6462302936087396e-06
+[sun] nm_m1 labels=[5777.0, 4.44, 0.0, 0.0, 1.0, 0.0, -0.05, 0.0]
+   converged=True iters=27 wall=256s dT_deep=3.977723776832618e-06
+[sun] nm_p2 labels=[5777.0, 4.44, 0.0, 0.0, 1.0, 0.0, 0.1, 0.0]
+   converged=True iters=23 wall=220s dT_deep=3.3805649254605284e-06
+[sun] nm_m2 labels=[5777.0, 4.44, 0.0, 0.0, 1.0, 0.0, -0.1, 0.0]
+   converged=True iters=34 wall=350s dT_deep=4.131916042641418e-06
+[sun] om_p1 labels=[5777.0, 4.44, 0.0, 0.0, 1.0, 0.0, 0.0, 0.05]
+   converged=True iters=31 wall=322s dT_deep=2.971231458845581e-06
+[sun] om_m1 labels=[5777.0, 4.44, 0.0, 0.0, 1.0, 0.0, 0.0, -0.05]
+   converged=True iters=47 wall=448s dT_deep=2.347852487499292e-06
+[sun] om_p2 labels=[5777.0, 4.44, 0.0, 0.0, 1.0, 0.0, 0.0, 0.1]
+   converged=True iters=35 wall=335s dT_deep=1.7750288318868204e-06
+[sun] om_m2 labels=[5777.0, 4.44, 0.0, 0.0, 1.0, 0.0, 0.0, -0.1]
+   converged=True iters=40 wall=375s dT_deep=2.1795696789163115e-06
+	Command being timed: "python -u fd_reference.py solve --family cno8 --base sun --only nm_p1,nm_m1,nm_p2,nm_m2,om_p1,om_m1,om_p2,om_m2,"
+	User time (seconds): 5443.99
+	System time (seconds): 221.11
+	Percent of CPU this job got: 214%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 44:02.49
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 14488180
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 6757
+	Minor (reclaiming a frame) page faults: 35214747
+	Voluntary context switches: 38585
+	Involuntary context switches: 20068
+	Swaps: 0
+	File system inputs: 102832
+	File system outputs: 336
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

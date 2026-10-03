@@ -1,0 +1,121 @@
+  note: sun/teff_p2 stopped at the iteration cap (final deep dT/T = 1.3e-04)
+  note: sun/cm_p2 stopped at the iteration cap (final deep dT/T = 5.9e-06)
+
+== sun  emulator value error, median |d ln|: T 2.2e-04  P_gas 5.1e-03  m 5.8e-03  n_e 2.1e-02
+cell         |         Richardson         |          central +-h          
+             |    rel     cos   n  pass |    rel     cos  ref-spread
+T/teff       |  0.010  1.0000  33  PASS |  0.009  1.0000       0.020
+P_gas/teff   |  0.057  0.9987  27  fail |  0.064  0.9982       0.048
+m/teff       |  0.103  0.9959  33  fail |  0.103  0.9959       0.034
+n_e/teff     |  0.041  0.9992  33  PASS |  0.040  0.9992       0.046
+T/logg       |  0.070  0.9988  13  fail |  0.130  0.9937       0.200
+P_gas/logg   |  0.008  1.0000  33  PASS |  0.008  1.0000       0.005
+m/logg       |  0.007  1.0000  33  PASS |  0.007  1.0000       0.001
+n_e/logg     |  0.017  0.9999  33  PASS |  0.015  0.9999       0.017
+T/mh         |  0.040  0.9993  27  PASS |  0.073  0.9973       0.115
+P_gas/mh     |  0.017  0.9999  33  PASS |  0.017  0.9999       0.014
+m/mh         |  0.022  0.9999  33  PASS |  0.022  0.9999       0.012
+n_e/mh       |  0.033  0.9995  28  PASS |  0.049  0.9988       0.045
+T/am         |  0.080  0.9971  24  fail |  0.096  0.9955       0.064
+P_gas/am     |  0.060  0.9996  33  fail |  0.060  0.9996       0.048
+m/am         |  0.094  0.9995  33  fail |  0.094  0.9995       0.048
+n_e/am       |  0.113  0.9991  29  fail |  0.114  0.9989       0.052
+T/cm         |  0.275  0.9836  16  fail |  0.277  0.9705       0.423
+P_gas/cm     |  0.335  0.9812  24  fail |  0.384  0.9702       0.151
+m/cm         |  0.231  0.9911  33  fail |  0.233  0.9912       0.122
+n_e/cm       |  0.477  0.9553  15  fail |  0.540  0.8830       0.322
+T/nm         |  0.483  0.9893   9  fail |  0.316  0.9769       0.700
+P_gas/nm     |  0.068  0.9978  12  fail |  0.269  0.9684       0.455
+m/nm         |  0.593  0.8971  24  fail |  0.639  0.8494       0.084
+n_e/nm       |  0.811  0.9813   9  fail |  1.073  0.8998       0.476
+T/om         |  0.175  0.9982  10  fail |  0.269  0.9656       0.597
+P_gas/om     |  2.620 -0.9652   5  fail |  2.854 -0.8127       0.721
+m/om         |  0.942  0.9697  19  fail |  1.017  0.9690       0.132
+n_e/om       |  2.693 -0.9810   5  fail |  3.512 -0.8603       1.062
+  note: metalpoor_giant/teff_p1 stopped at the iteration cap (final deep dT/T = 7.9e-06)
+  note: metalpoor_giant/teff_m1 stopped at the iteration cap (final deep dT/T = 1.1e-05)
+  note: metalpoor_giant/teff_p2 stopped at the iteration cap (final deep dT/T = 1.1e-04)
+  note: metalpoor_giant/teff_m2 stopped at the iteration cap (final deep dT/T = 6.5e-06)
+  note: metalpoor_giant/logg_m2 stopped at the iteration cap (final deep dT/T = 6.2e-06)
+  note: metalpoor_giant/mh_p2 stopped at the iteration cap (final deep dT/T = 7.2e-06)
+  note: metalpoor_giant/mh_m2 stopped at the iteration cap (final deep dT/T = 2.8e-04)
+  note: metalpoor_giant/am_m1 stopped at the iteration cap (final deep dT/T = 1.2e-05)
+  note: metalpoor_giant/am_m2 stopped at the iteration cap (final deep dT/T = 1.9e-05)
+  note: metalpoor_giant/cm_p1 stopped at the iteration cap (final deep dT/T = 5.9e-06)
+  note: metalpoor_giant/cm_p2 stopped at the iteration cap (final deep dT/T = 7.7e-06)
+  note: metalpoor_giant/nm_p1 stopped at the iteration cap (final deep dT/T = 4.4e-06)
+  note: metalpoor_giant/nm_m1 stopped at the iteration cap (final deep dT/T = 5.9e-06)
+  note: metalpoor_giant/om_m1 stopped at the iteration cap (final deep dT/T = 8.3e-06)
+
+== metalpoor_giant  emulator value error, median |d ln|: T 2.4e-04  P_gas 1.1e-02  m 2.3e-02  n_e 2.5e-02
+cell         |         Richardson         |          central +-h          
+             |    rel     cos   n  pass |    rel     cos  ref-spread
+T/teff       |  0.015  0.9999  33  PASS |  0.012  0.9999       0.036
+P_gas/teff   |  0.036  0.9997  33  PASS |  0.036  0.9997       0.039
+m/teff       |  0.029  0.9996  33  PASS |  0.028  0.9996       0.034
+n_e/teff     |  0.035  0.9994  33  PASS |  0.030  0.9996       0.072
+T/logg       |  0.048  0.9989  18  PASS |  0.096  0.9955       0.128
+P_gas/logg   |  0.015  1.0000  33  PASS |  0.015  1.0000       0.005
+m/logg       |  0.012  1.0000  33  PASS |  0.012  1.0000       0.002
+n_e/logg     |  0.020  0.9998  33  PASS |  0.018  0.9998       0.021
+T/mh         |  0.051  0.9987  22  fail |  0.086  0.9963       0.079
+P_gas/mh     |  0.031  1.0000  33  PASS |  0.030  1.0000       0.022
+m/mh         |  0.027  0.9999  33  PASS |  0.027  0.9999       0.024
+n_e/mh       |  0.021  0.9998  25  PASS |  0.031  0.9995       0.033
+T/am         |  0.052  0.9990  22  fail |  0.111  0.9939       0.210
+P_gas/am     |  0.027  0.9999  33  PASS |  0.028  0.9999       0.036
+m/am         |  0.012  1.0000  33  PASS |  0.012  1.0000       0.039
+n_e/am       |  0.068  0.9991  26  fail |  0.083  0.9977       0.072
+T/cm         |  0.184  0.9955  12  fail |  0.468  0.8843       1.086
+P_gas/cm     |  1.046  0.9909  14  fail |  1.132  0.9836       0.353
+m/cm         |  0.310  0.9820  27  fail |  0.319  0.9841       0.093
+n_e/cm       |  1.106 -0.1931   7  fail |  0.954  0.3584       1.706
+T/nm         |                 (0 layers) |  0.805  0.6015       2.491
+P_gas/nm     |  0.778  0.7748  10  fail |  0.771  0.7751       1.820
+m/nm         |  1.643  0.9395  11  fail |  1.821  0.9620       0.230
+n_e/nm       |                 (0 layers) |  1.625 -0.0469       3.169
+T/om         |                 (3 layers) |  0.474  0.8897       1.076
+P_gas/om     |  3.722  0.9186  10  fail |  4.230  0.8833       1.482
+m/om         |  1.447 -0.6469  21  fail |  1.463 -0.4889       0.207
+n_e/om       |                 (4 layers) |  1.838  0.0412       1.958
+  note: arcturus/mh_p1 stopped at the iteration cap (final deep dT/T = 5.0e-06)
+  note: arcturus/mh_p2 stopped at the iteration cap (final deep dT/T = 1.1e-05)
+  note: arcturus/am_p1 stopped at the iteration cap (final deep dT/T = 1.6e-05)
+  note: arcturus/cm_m2 stopped at the iteration cap (final deep dT/T = 1.3e-05)
+  note: arcturus/nm_m1 stopped at the iteration cap (final deep dT/T = 1.4e-05)
+  note: arcturus/nm_m2 stopped at the iteration cap (final deep dT/T = 3.9e-05)
+  note: arcturus/om_p1 stopped at the iteration cap (final deep dT/T = 1.2e-05)
+
+== arcturus  emulator value error, median |d ln|: T 1.6e-04  P_gas 1.1e-02  m 3.9e-03  n_e 9.2e-03
+cell         |         Richardson         |          central +-h          
+             |    rel     cos   n  pass |    rel     cos  ref-spread
+T/teff       |  0.011  0.9999  33  PASS |  0.010  1.0000       0.009
+P_gas/teff   |  0.039  0.9997  33  PASS |  0.038  0.9998       0.033
+m/teff       |  0.022  0.9998  33  PASS |  0.022  0.9998       0.031
+n_e/teff     |  0.052  0.9990  33  fail |  0.051  0.9990       0.042
+T/logg       |  0.081  0.9997  13  fail |  0.201  0.9840       0.297
+P_gas/logg   |  0.016  1.0000  33  PASS |  0.016  1.0000       0.006
+m/logg       |  0.014  1.0000  33  PASS |  0.014  1.0000       0.002
+n_e/logg     |  0.023  0.9999  33  PASS |  0.023  0.9999       0.014
+T/mh         |  0.042  0.9994  15  PASS |  0.184  0.9830       0.157
+P_gas/mh     |  0.011  0.9999  33  PASS |  0.011  0.9999       0.012
+m/mh         |  0.015  1.0000  33  PASS |  0.015  1.0000       0.005
+n_e/mh       |  0.031  0.9996  27  PASS |  0.043  0.9991       0.033
+T/am         |  0.034  0.9994  15  PASS |  0.210  0.9787       0.136
+P_gas/am     |  0.026  0.9999  33  PASS |  0.026  0.9999       0.032
+m/am         |  0.008  1.0000  33  PASS |  0.008  1.0000       0.027
+n_e/am       |  0.061  0.9986  29  fail |  0.065  0.9984       0.033
+T/cm         |  0.203  0.9955  12  fail |  0.212  0.9906       0.148
+P_gas/cm     |  0.359  0.9875  17  fail |  0.458  0.9523       0.339
+m/cm         |  0.211  0.9822  33  fail |  0.211  0.9824       0.106
+n_e/cm       |  0.235  0.9951  15  fail |  0.265  0.9834       0.242
+T/nm         |  0.887  0.4759   5  fail |  0.656  0.7630       1.364
+P_gas/nm     |  0.824  0.6002  10  fail |  0.881  0.5054       0.836
+m/nm         |  1.964 -0.9888  24  fail |  2.002 -0.9753       0.106
+n_e/nm       |  1.092  0.9887  13  fail |  1.152  0.8692       1.115
+T/om         |                 (2 layers) |  0.533  0.8791       1.366
+P_gas/om     |  1.538  0.1833  13  fail |  1.454  0.2774       0.862
+m/om         |  0.555  0.8842  25  fail |  0.637  0.8642       0.230
+n_e/om       |                 (3 layers) |  1.258  0.5501       1.378
+
+wrote /home/jjlee/work/atmojax/validation/results/atmosphere_jacobian_cno8.json

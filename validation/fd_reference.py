@@ -6,6 +6,12 @@ convergence), keep the float64 in-memory state, put T, P_gas, m, n_e on the stan
 
     python fd_reference.py build-catalog              # once: work/predicted_atomic_lines_all.npy (4.2 GB)
     python fd_reference.py solve --base sun           # resumable; results/runs/sun/<name>.npz per solve
+    python fd_reference.py solve --base sun --family cno8 --only base,cm_p1,...   # results/runs_cno8/sun/
+
+The cno8 family holds [C/M], [N/M] and [O/M] as labels.  Its base has [C/M] = [N/M] = 0 and
+[O/M] = [alpha/M], which is exactly the five-label abundance mixture (Payne Zero's five-label path
+treats O as an alpha element), so the five-label teff/logg/mh solves are reused as its references
+(see run_dir).  Its alpha perturbation holds [O/M] fixed, unlike the five-label one, so it is re-solved.
 
 The recorded campaign used --tol 5e-6 --max-iter 60 (the defaults below), NUMBA_NUM_THREADS=4.
 """
@@ -27,13 +33,36 @@ BASES = {
     "metalpoor_giant": (5000.0, 2.50, -1.50, 0.40, 1.5),
 }
 LABELS = ("teff", "logg", "mh", "am")
-STEPS = {"teff": 25.0, "logg": 0.05, "mh": 0.05, "am": 0.05}
+STEPS = {"teff": 25.0, "logg": 0.05, "mh": 0.05, "am": 0.05, "cm": 0.05, "nm": 0.05, "om": 0.05}
+# position in the stored label vector (teff, logg, mh, am, vmic[, cm, nm, om]), which is also the column
+# of atmojax's log_state_jacobian for both families
+LABEL_INDEX = {"teff": 0, "logg": 1, "mh": 2, "am": 3, "cm": 5, "nm": 6, "om": 7}
+FAMILIES = {"five_label": LABELS, "cno8": LABELS + ("cm", "nm", "om")}
+RUNS = {"five_label": RESULTS / "runs", "cno8": RESULTS / "runs_cno8"}
+REUSED_FROM_FIVE_LABEL = ("teff", "logg", "mh")
+
+
+def base_labels(base: str, family: str = "five_label") -> tuple:
+    b = BASES[base]
+    return b if family == "five_label" else b + (0.0, 0.0, b[3])
+
+
+def family_of(d: Path) -> str:
+    return "cno8" if d.parent.name == RUNS["cno8"].name else "five_label"
+
+
+def run_dir(d: Path, lab: str) -> Path:
+    """Directory holding the solves for label `lab` at base directory `d` (cno8 reuses five-label ones)."""
+    if family_of(d) == "cno8" and lab in REUSED_FROM_FIVE_LABEL and not (d / f"{lab}_p1.npz").exists():
+        return RUNS["five_label"] / d.name
+    return d
 LOG_TAU = -6.875 + 0.125 * np.arange(80)
 
 
-def perturbations():
+def perturbations(family: str = "five_label"):
     yield "base", None, 0
-    for i, lab in enumerate(LABELS):
+    for lab in FAMILIES[family]:
+        i = LABEL_INDEX[lab]
         for mult in (1, 2):
             for sgn in (+1, -1):
                 yield f"{lab}_{'p' if sgn > 0 else 'm'}{mult}", i, sgn * mult
@@ -105,9 +134,10 @@ def solve_one(labels, tol, max_iter):
     from payne_zero_atmosphere.runner import run_atmosphere_model
     from payne_zero_atmosphere.warm_start import emulator_warm_start_model
     from payne_zero_atmosphere.cli import molecular_equilibrium_catalog_path, source_line_paths
-    teff, logg, mh, am, xi = labels
+    teff, logg, mh, am, xi = labels[:5]
+    cno = dict(zip(("carbon_enhancement", "nitrogen_enhancement", "oxygen_enhancement"), labels[5:]))
     warm, _ = emulator_warm_start_model(effective_temperature=teff, log_surface_gravity=logg, metallicity=mh,
-                                        alpha_enhancement=am, microturbulence_km_s=xi, device="cpu")
+                                        alpha_enhancement=am, microturbulence_km_s=xi, device="cpu", **cno)
     cfg = AtmosphereConfig(
         inputs=AtmosphereInput(initial_atmosphere=warm, molecules_path=molecular_equilibrium_catalog_path(), **source_line_paths()),
         outputs=AtmosphereOutput(),
@@ -120,10 +150,10 @@ def solve_one(labels, tol, max_iter):
 
 
 def cmd_solve(a):
-    base = BASES[a.base]
-    out = Path(a.out) / a.base
+    base = base_labels(a.base, a.family)
+    out = Path(a.out or RUNS[a.family]) / a.base
     out.mkdir(parents=True, exist_ok=True)
-    for name, idx, mult in perturbations():
+    for name, idx, mult in perturbations(a.family):
         if a.only and name not in a.only.split(","):
             continue
         path = out / f"{name}.npz"
@@ -131,7 +161,7 @@ def cmd_solve(a):
             continue
         labels = list(base)
         if idx is not None:
-            labels[idx] = round(labels[idx] + mult * STEPS[LABELS[idx]], 6)
+            labels[idx] = round(labels[idx] + mult * STEPS[name.split("_")[0]], 6)
         print(f"[{a.base}] {name} labels={labels}", flush=True)
         res, wall = solve_one(labels, a.tol, a.max_iter)
         g = to_tau_grid(res.atmosphere)
@@ -149,7 +179,8 @@ if __name__ == "__main__":
     sub.add_parser("build-catalog")
     s = sub.add_parser("solve")
     s.add_argument("--base", required=True, choices=list(BASES))
-    s.add_argument("--out", default=str(RESULTS / "runs"))
+    s.add_argument("--family", default="five_label", choices=list(FAMILIES))
+    s.add_argument("--out", default="", help="default: results/runs (five_label) or results/runs_cno8")
     s.add_argument("--tol", type=float, default=5e-6)
     s.add_argument("--max-iter", type=int, default=60)
     s.add_argument("--only", default="")

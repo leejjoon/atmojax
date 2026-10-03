@@ -1,0 +1,31 @@
+[arcturus] om_p1 labels=[4286.0, 1.66, -0.52, 0.3, 1.7, 0.0, 0.0, 0.35]
+   converged=False iters=60 wall=1032s dT_deep=1.1619118986362089e-05
+[arcturus] om_m1 labels=[4286.0, 1.66, -0.52, 0.3, 1.7, 0.0, 0.0, 0.25]
+   converged=True iters=23 wall=431s dT_deep=3.3465748813253175e-06
+[arcturus] om_p2 labels=[4286.0, 1.66, -0.52, 0.3, 1.7, 0.0, 0.0, 0.4]
+   converged=True iters=55 wall=918s dT_deep=3.2128969776348907e-06
+[arcturus] om_m2 labels=[4286.0, 1.66, -0.52, 0.3, 1.7, 0.0, 0.0, 0.2]
+   converged=True iters=28 wall=451s dT_deep=4.971804258024809e-06
+	Command being timed: "python -u fd_reference.py solve --family cno8 --base arcturus --only om_p1,om_m1,om_p2,om_m2,"
+	User time (seconds): 6104.29
+	System time (seconds): 257.61
+	Percent of CPU this job got: 224%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 47:16.39
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 19514140
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 1444
+	Minor (reclaiming a frame) page faults: 15744421
+	Voluntary context switches: 20260
+	Involuntary context switches: 14297
+	Swaps: 0
+	File system inputs: 88176
+	File system outputs: 176
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

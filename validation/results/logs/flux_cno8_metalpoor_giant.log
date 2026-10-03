@@ -1,0 +1,7 @@
+metalpoor_giant/teff: emulator rel 0.009 cos 1.0000 gain 1.002 | T-only-from-emulator rel 0.006
+metalpoor_giant/logg: emulator rel 0.023 cos 0.9999 gain 0.985 | T-only-from-emulator rel 0.028
+metalpoor_giant/mh: emulator rel 0.004 cos 1.0000 gain 0.998 | T-only-from-emulator rel 0.008
+metalpoor_giant/am: emulator rel 0.024 cos 0.9998 gain 1.012 | T-only-from-emulator rel 0.008
+metalpoor_giant/cm: emulator rel 0.083 cos 0.9968 gain 1.017 | T-only-from-emulator rel 0.037
+metalpoor_giant/nm: emulator rel 0.159 cos 0.9872 gain 0.976 | T-only-from-emulator rel 0.034
+metalpoor_giant/om: emulator rel 0.039 cos 0.9992 gain 0.999 | T-only-from-emulator rel 0.011

@@ -1,0 +1,7 @@
+sun/teff: emulator rel 0.025 cos 0.9999 gain 1.020 | T-only-from-emulator rel 0.004
+sun/logg: emulator rel 0.026 cos 0.9997 gain 0.990 | T-only-from-emulator rel 0.004
+sun/mh: emulator rel 0.009 cos 1.0000 gain 1.004 | T-only-from-emulator rel 0.001
+sun/am: emulator rel 0.077 cos 0.9979 gain 1.038 | T-only-from-emulator rel 0.008
+sun/cm: emulator rel 0.106 cos 0.9946 gain 1.011 | T-only-from-emulator rel 0.018
+sun/nm: emulator rel 0.041 cos 0.9992 gain 1.007 | T-only-from-emulator rel 0.011
+sun/om: emulator rel 0.205 cos 0.9801 gain 1.012 | T-only-from-emulator rel 0.026

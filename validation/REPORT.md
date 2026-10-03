@@ -45,8 +45,8 @@ are wrong in the upper atmosphere (up to about 2× above log τ ≈ −1 for Tef
 much milder. The [α/M] column is 6–28% off at every base, and worst at Arcturus, where ∂T/∂[α/M] is
 40–60% off above log τ = −1. This is exactly the error mechanism DSS documented, appearing exactly
 where its arithmetic predicts. Most of it does not reach the H-band spectrum, which forms deeper, nor
-the window-averaged flux Jacobian in the J and Ks bands or at 420–440, 510–520 or 846–870 nm. Strong-line cores are the
-exception: in the Mg b and Ca II triplet cores the logg and [α/M] flux derivatives are 10–60% off
+the window-averaged flux Jacobian in the J and Ks bands or at 420–440, 510–520 or 846–870 nm.
+Strong-line cores are the exception: in the Mg b and Ca II triplet cores the logg and [α/M] flux derivatives are 10–60% off
 (§6.2).
 
 **Recommendation for DSS.** Use a hybrid seam:
@@ -62,6 +62,11 @@ result.
 At Arcturus (4286 K) the atmosphere-level [α/M] Jacobian is the worst of the three bases, but the
 H-band flux Jacobians are as good as or better than at the other two (1.1–6.5%, cosine ≥ 0.998).
 This is one cool giant, not the cool-star regime (§8).
+
+**The CNO initializer** (§6.3) is as good as or better than the five-label one for Teff, logg and
+[M/H], but its derivatives with respect to C, N and O are not usable: several atmosphere cells have the
+wrong sign. In the H band most of the C, N and O signal is direct line opacity, so the flux Jacobian is
+still within 1–4% where the atmosphere's share is small, but 11–21% off where it is not.
 
 ---
 
@@ -142,8 +147,8 @@ normalized by its maximum, it is ≤ 4.2e-5. This is float32 rounding in the MLP
 JIT compilation, on CPU.
 
 **The eight-label CNO checkpoint** has the same architecture with 8 inputs. atmojax supports it, and
-`tests/test_initializer.py` checks its parity with Payne Zero's own code. **Its derivatives were not
-validated in this study:** everything in §4–§6 concerns the five-label initializer only.
+`tests/test_initializer.py` checks its parity with Payne Zero's own code. §4–§6.2 concern the
+five-label initializer; §6.3 validates the CNO one in the H band.
 
 **Compatibility with DSS** (`results/checks.json`):
 - **Depth grid:** the checkpoint's `standard_rosseland_optical_depth` is exactly
@@ -514,6 +519,80 @@ the spread):
   sensitivities tens of percent off. That is a step-size problem for the optimizer, not a bias, but it
   is a reason to keep the finite-difference Jacobian for uncertainties.
 
+### 6.3 The CNO (eight-label) initializer
+
+Payne Zero's second initializer adds [C/M], [N/M] and [O/M] as labels (atmojax family `cno8`). It was
+scored the same way, at the same three bases, with C = N = 0 and [O/M] = [α/M] at the base.
+
+**Reference solves** (`fd_reference.py --family cno8`, `results/runs_cno8/`).
+- **Reused:** that base mixture is exactly the five-label one (Payne Zero's five-label path treats O as
+  an α element; the two warm starts' abundance tables are identical at every base), so the five-label
+  Teff, logg and [M/H] solves serve as references here too.
+- **New:** C, N and O at ±h and ±2h (h = 0.05 dex), and [α/M] at ±h, ±2h **with [O/M] held fixed**: in
+  this family O is its own label, so the five-label α solves, which move O as well, do not apply.
+- **Warm-start check:** each base was re-solved from the CNO initializer's warm start. Over the band it
+  agrees with the five-label base to a median of 1e-7 to 2e-5 in ln of every field (maximum 4e-3 in
+  n_e at a few layers), the same level as the tolerance check in §4.2.
+- **Convergence:** 51 solves; 38 converged at 5×10⁻⁶ and 13 stopped at the cap between 4.4×10⁻⁶ and
+  3.9×10⁻⁵, all usable. Peak memory 19.5 GB per solve (Arcturus).
+
+**The labels the families share do as well or better.** Against the same references the CNO network's
+Teff, logg and [M/H] cells pass G1 more often than the five-label network's (9, 13 and 13 of 16 cells
+at the Sun, giant and Arcturus, against 7, 9 and 8, counting its own [α/M] cells). Its value errors are
+2–4× smaller in T and up to 4× smaller in P_gas; in m and n_e they are mixed.
+
+**The C, N and O derivatives of the atmosphere are not usable.** Central ±h rel-L2 (cosine) / reference
+spread, over −3 ≤ log τ ≤ 1 (`results/atmosphere_jacobian_cno8.json`); bold where the error is more
+than twice the spread:
+
+| cell | Sun | giant | Arcturus |
+|---|---|---|---|
+| T / [C/M] | 0.28 (0.97) / 0.42 | 0.47 (0.88) / 1.09 | 0.21 (0.99) / 0.15 |
+| P_gas / [C/M] | **0.38** (0.97) / 0.15 | **1.13** (0.98) / 0.35 | 0.46 (0.95) / 0.34 |
+| m / [C/M] | 0.23 (0.99) / 0.12 | **0.32** (0.98) / 0.09 | 0.21 (0.98) / 0.11 |
+| n_e / [C/M] | 0.54 (0.88) / 0.32 | 0.95 (0.36) / 1.71 | 0.27 (0.98) / 0.24 |
+| T / [N/M] | 0.32 (0.98) / 0.70 | 0.80 (0.60) / 2.49 | 0.66 (0.76) / 1.36 |
+| P_gas / [N/M] | 0.27 (0.97) / 0.45 | 0.77 (0.78) / 1.82 | 0.88 (0.51) / 0.84 |
+| m / [N/M] | **0.64** (0.85) / 0.08 | **1.82** (0.96) / 0.23 | **2.00 (−0.98)** / 0.11 |
+| n_e / [N/M] | **1.07** (0.90) / 0.48 | 1.62 (−0.05) / 3.17 | 1.15 (0.87) / 1.11 |
+| T / [O/M] | 0.27 (0.97) / 0.60 | 0.47 (0.89) / 1.08 | 0.53 (0.88) / 1.37 |
+| P_gas / [O/M] | **2.85 (−0.81)** / 0.72 | **4.23** (0.88) / 1.48 | 1.45 (0.28) / 0.86 |
+| m / [O/M] | **1.02** (0.97) / 0.13 | **1.46 (−0.49)** / 0.21 | **0.64** (0.86) / 0.23 |
+| n_e / [O/M] | **3.51 (−0.86)** / 1.06 | 1.84 (0.04) / 1.96 | 1.26 (0.55) / 1.38 |
+
+Several cells have the **wrong sign** (negative cosine), and none passes G1. The cells not in bold are
+mostly unresolvable rather than good: the reference spread is as large as the signal. This is DSS's
+mechanism at its most extreme. A 0.05 dex change in C, N or O moves the atmosphere far less than the
+emulator's own value error (about 1% in P_gas), so a network trained on values leaves these slopes
+essentially unconstrained. The [α/M] cells, with O fixed, are fine at the giants (P_gas and m pass G1)
+and 6–11% off at the Sun.
+
+**Flux Jacobian, H band** (rel-L2; cosine in parentheses where it is below 0.998; atmosphere share and
+the emulator's error on the atmosphere part from `flux_split.py`):
+
+| label | Sun | giant | Arcturus |
+|---|---|---|---|
+| Teff | 0.025 | 0.009 | 0.015 |
+| logg | 0.026 | 0.023 | 0.014 |
+| [M/H] | 0.009 | 0.004 | 0.005 |
+| [α/M], O fixed | 0.077 (0.9979) | 0.024 | 0.031 |
+| [C/M] | **0.106** (0.9946); share 21%, atm. part 0.50 | 0.083 (0.9968); share 32%, atm. part 0.26 | 0.008; share 3%, atm. part 0.26 |
+| [N/M] | 0.041; share 7%, atm. part 0.58 | **0.159** (0.9872); share 9%, atm. part 1.70 | 0.040; share 2%, atm. part 2.29 |
+| [O/M] | **0.205** (0.9801); share 6%, atm. part 3.60 | 0.039; share 1%, atm. part 3.11 | 0.018; share 1%, atm. part 1.78 |
+
+**Reading.**
+- **Teff, logg and [M/H] flux Jacobians are 0.4–2.6%**, better than the five-label network's (§6).
+- **C, N and O act on the H band mostly directly**, through the CO, CN and OH line opacity, which does
+  not involve the emulator. The atmosphere carries 1–32% of the response, and on that part the emulator
+  is 26–360% off. The flux error is therefore small where the atmosphere's share is small (Arcturus:
+  0.8–4%) and large where it is not: the Sun's [O/M] (21%), the giant's [N/M] (16%) and the Sun's
+  [C/M] (11%).
+- **For a fit:** use the CNO network's tangent for Teff, logg, [M/H] and [α/M], but take the
+  atmosphere's response to C, N and O from finite differences, or neglect it (set it to zero), rather
+  than from the emulator. Neglecting it costs the atmosphere share above (1–32%); using the emulator can
+  cost several times that, with the wrong sign.
+- Only the H band was measured for this family.
+
 ---
 
 ## 7. What this means for DSS
@@ -528,7 +607,9 @@ Ranked by how directly the measurements support each option:
      residuals. A Jacobian that is 2–10% off, with cosine ≥ 0.997, changes the path and iteration
      count, not the answer.
    - **What it saves:** the nine re-solves per Jacobian, which are DSS's dominant cost per step.
-   - **Integration:** `JaxInitializer.log_state_jacobian` already returns d ln(T, P_gas, m, n_e)/d label
+   - **CNO labels:** with the CNO initializer, take the atmosphere's response to C, N and O from
+     finite differences or neglect it; its tangent for them is wrong (§6.3).
+   - **Integration:** `AtmosphereInitializer.log_state_jacobian` already returns d ln(T, P_gas, m, n_e)/d label
      on DSS's grid. DSS's tangent is in linear units, so multiply by the state value.
 
 2. **Emulator for both value and gradient (fully differentiable fast path).** Useful for exploration,
@@ -571,8 +652,8 @@ re-measured.
 6. **Weak-signal cells.** T against logg, [M/H] and [α/M] are unresolved at the atmosphere level
    because the true response is smaller than the finite-difference noise at these steps. Strong-line
    cores (§6.2) indirectly show the emulator's ∂T/∂logg and ∂T/∂[M/H] to be wrong at the Sun.
-7. **Only the five-label initializer.** The eight-label CNO and direct-abundance initializers were not
-   tested. Direct-abundance mode, with about 80 [X/Fe] labels, is where autodiff would save the most
+7. **Not the direct-abundance initializer.** The five-label and CNO initializers were tested, the CNO
+   one in the H band only (§6.3). The direct-abundance initializer was not. Its mode, with about 80 [X/Fe] labels, is where autodiff would save the most
    (about 80 solves per Jacobian), and it is unmeasured.
 8. **The hybrid seam itself was not run inside DSS.** §7 is a recommendation derived from these
    measurements, not a demonstrated DSS fit.
@@ -616,6 +697,15 @@ done; done
 python flux_cores.py results/runs/sun                # after the band runs above; one base per call
 python flux_cores.py results/runs/metalpoor_giant
 python flux_cores.py results/runs/arcturus
+
+# CNO initializer (§6.3): needs work/cno8.npz from `atmojax-export cno8 work/cno8.npz`
+for base in sun metalpoor_giant arcturus; do
+  python fd_reference.py solve --family cno8 --base $base   # 17 new solves; reuses runs/<base> teff/logg/mh
+done
+python compare.py results/runs_cno8/sun results/runs_cno8/metalpoor_giant results/runs_cno8/arcturus
+for base in sun metalpoor_giant arcturus; do
+  python flux_jacobian.py results/runs_cno8/$base && python flux_split.py results/runs_cno8/$base
+done
 python checks.py                             # results/checks.json (DSS checkout optional, via $DSS_REPO)
 ```
 
@@ -652,5 +742,7 @@ therefore applies unchanged to the package.
 | `results/runs/<base>/flux_jacobian.json`, `flux_split.json` | §6 tables (H band) |
 | `results/runs/<base>/flux_jac_<label>_<band>nm.npz`, `flux_jacobian_<band>nm.json`, `flux_split_<band>nm.json` | §6.1 (other bands) |
 | `results/runs/<base>/flux_cores.json` | §6.2 |
+| `results/runs_cno8/<base>/` | §6.3: CNO-family solves (base, am, cm, nm, om), flux Jacobians and split |
+| `results/atmosphere_jacobian_cno8.json` | §6.3 atmosphere table |
 | `results/logs/` | solver and synthesis logs; `mem.log` holds the memory trace of the patched run. `campaign.log` also contains the out-of-memory Arcturus attempt; `arcturus_*.log` are the later Arcturus solves (with `/usr/bin/time -v` peak memory), `arcturus_mem.log` their machine-wide memory trace, and `flux_arcturus.log`/`flux_split_arcturus.log` its synthesis |
 | `work/` (git-ignored) | exported weights and the combined catalog, regenerated by the commands above |

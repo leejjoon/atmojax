@@ -1,0 +1,5 @@
+metalpoor_giant/mh: atmosphere_share_of_total 0.3838  rel_l2_emulator_on_atmosphere_part 0.0111  cosine_emulator_on_atmosphere_part 0.9999
+metalpoor_giant/am: atmosphere_share_of_total 0.5045  rel_l2_emulator_on_atmosphere_part 0.0485  cosine_emulator_on_atmosphere_part 0.9990
+metalpoor_giant/cm: atmosphere_share_of_total 0.3167  rel_l2_emulator_on_atmosphere_part 0.2615  cosine_emulator_on_atmosphere_part 0.9799
+metalpoor_giant/nm: atmosphere_share_of_total 0.0938  rel_l2_emulator_on_atmosphere_part 1.6983  cosine_emulator_on_atmosphere_part 0.7305
+metalpoor_giant/om: atmosphere_share_of_total 0.0125  rel_l2_emulator_on_atmosphere_part 3.1078  cosine_emulator_on_atmosphere_part 0.3891

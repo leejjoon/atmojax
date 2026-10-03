@@ -1,10 +1,11 @@
-"""Split the [M/H] and [alpha/M] flux Jacobians into a direct and an atmosphere-mediated part.
+"""Split the composition-label flux Jacobians into a direct and an atmosphere-mediated part.
 
 A composition label changes the spectrum two ways: directly, through the abundances in the line
 and continuum opacity, and indirectly, by changing the atmosphere.  flux_jacobian.py gives both arms
 identical abundances, so the direct part is common to reference and emulator and flatters the
 emulator's score.  Here the direct part is computed explicitly (base atmosphere held fixed, abundances
-at l +- h) and removed from both arms, and the emulator is scored on the atmosphere part alone.
+at l +- h) and removed from both arms, and the emulator is scored on the atmosphere part alone.  The
+labels are [M/H] and [alpha/M], plus [C/M], [N/M] and [O/M] for a results/runs_cno8 base.
 
     python flux_split.py results/runs/sun        # needs flux_jac_{mh,am}.npz from flux_jacobian.py
     python flux_split.py results/runs/sun --wl 510 520   # same --wl as flux_jacobian.py
@@ -27,15 +28,16 @@ def main():
     p.add_argument("--r-grid", type=float, default=100000.0)
     a = p.parse_args()
     d = Path(a.base_dir)
+    family = F.family_of(d)
     sfx = FJ.band_suffix(a.wl)
-    xi = F.BASES[d.name][4]
+    xi = F.base_labels(d.name, family)[4]
     base = FJ.native(np.load(d / "base.npz"))
     out = {}
-    for lab in ("mh", "am"):
+    for lab in [l for l in F.FAMILIES[family] if l not in ("teff", "logg")]:   # composition labels
         z = np.load(d / f"flux_jac_{lab}{sfx}.npz")
-        h = F.STEPS[lab]
-        ab_p = FJ.abundances(np.load(d / f"{lab}_p1.npz")["labels"])
-        ab_m = FJ.abundances(np.load(d / f"{lab}_m1.npz")["labels"])
+        h, src = F.STEPS[lab], F.run_dir(d, lab)
+        ab_p = FJ.abundances(np.load(src / f"{lab}_p1.npz")["labels"])
+        ab_m = FJ.abundances(np.load(src / f"{lab}_m1.npz")["labels"])
         _, fp = FJ.flux(base, ab_p, xi, a)
         _, fm = FJ.flux(base, ab_m, xi, a)
         direct = (fp - fm) / (2 * h)

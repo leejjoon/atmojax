@@ -1,0 +1,7 @@
+arcturus/teff: emulator rel 0.015 cos 0.9999 gain 0.991 | T-only-from-emulator rel 0.002
+arcturus/logg: emulator rel 0.014 cos 0.9999 gain 0.991 | T-only-from-emulator rel 0.004
+arcturus/mh: emulator rel 0.005 cos 1.0000 gain 1.004 | T-only-from-emulator rel 0.001
+arcturus/am: emulator rel 0.031 cos 0.9995 gain 0.996 | T-only-from-emulator rel 0.002
+arcturus/cm: emulator rel 0.008 cos 1.0000 gain 1.004 | T-only-from-emulator rel 0.007
+arcturus/nm: emulator rel 0.040 cos 0.9994 gain 1.018 | T-only-from-emulator rel 0.003
+arcturus/om: emulator rel 0.018 cos 0.9999 gain 0.994 | T-only-from-emulator rel 0.003
