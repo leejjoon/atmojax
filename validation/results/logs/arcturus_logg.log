@@ -1,0 +1,31 @@
+[arcturus] logg_p1 labels=[4286.0, 1.71, -0.52, 0.3, 1.7]
+   converged=True iters=41 wall=734s dT_deep=4.614449199220353e-06
+[arcturus] logg_m1 labels=[4286.0, 1.61, -0.52, 0.3, 1.7]
+   converged=True iters=35 wall=579s dT_deep=1.7811721155651346e-06
+[arcturus] logg_p2 labels=[4286.0, 1.76, -0.52, 0.3, 1.7]
+   converged=True iters=28 wall=465s dT_deep=4.741171818771688e-06
+[arcturus] logg_m2 labels=[4286.0, 1.56, -0.52, 0.3, 1.7]
+   converged=True iters=31 wall=510s dT_deep=2.4214946553645344e-06
+	Command being timed: "python -u fd_reference.py solve --base arcturus --only logg_p1,logg_m1,logg_p2,logg_m2"
+	User time (seconds): 4956.29
+	System time (seconds): 187.76
+	Percent of CPU this job got: 224%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 38:11.53
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 19512308
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 10
+	Minor (reclaiming a frame) page faults: 15954635
+	Voluntary context switches: 15768
+	Involuntary context switches: 14550
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 176
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

@@ -57,14 +57,14 @@ prediction, not a converged atmosphere.
 ## How good are the derivatives?
 
 [`validation/REPORT.md`](validation/REPORT.md) measures them for the five-label initializer. They are
-compared against finite differences of 34 re-converged Payne Zero atmospheres (the Sun and a metal-poor
-giant), at the atmosphere level and on H-band (1550–1600 nm) spectra.
+compared against finite differences of 51 re-converged Payne Zero atmospheres (the Sun, a metal-poor
+giant and Arcturus), at the atmosphere level and on H-band (1550–1600 nm) spectra.
 
-| | Sun | metal-poor giant |
-|---|---|---|
-| ∂T/∂Teff | 0.8% | 1.5% |
-| flux Jacobian, Teff / logg | 3.6% / 7.5% | 4.5% / 2.6% |
-| flux Jacobian, [M/H] / [α/M] (atmosphere part only) | 1.1% / 7.0% | 3.4% / 10.6% |
+| | Sun | metal-poor giant | Arcturus |
+|---|---|---|---|
+| ∂T/∂Teff | 0.8% | 1.5% | 1.9% |
+| flux Jacobian, Teff / logg | 3.6% / 7.5% | 4.5% / 2.6% | 1.1% / 6.5% |
+| flux Jacobian, [M/H] / [α/M] (atmosphere part only) | 1.1% / 7.0% | 3.4% / 10.6% | 1.5% / 3.6% |
 
 **Good for:**
 - driving gradient-based fits;
@@ -72,9 +72,12 @@ giant), at the atmosphere level and on H-band (1550–1600 nm) spectra.
 
 **Not good for:**
 - final uncertainties;
-- upper-atmosphere pressure derivatives, which are off by up to about 2× above log τ ≈ −1 for Teff.
+- upper-atmosphere pressure derivatives, which are off by up to about 2× above log τ ≈ −1 for Teff
+  at the Sun;
+- [α/M] derivatives of the atmosphere itself, worst at the cool giant (∂T/∂[α/M] 40–60% off above
+  log τ ≈ −1), although little of that reaches the H-band spectrum.
 
-**Not yet measured:** cool giants, and the CNO initializer's derivatives. See the report for the full
+**Not yet measured:** cool dwarfs, other wavelength bands, and the CNO initializer's derivatives. See the report for the full
 tables, method and limitations.
 
 ## Tests

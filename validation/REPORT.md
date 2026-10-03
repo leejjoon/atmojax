@@ -22,8 +22,8 @@ initializer, made differentiable, supply those derivatives instead?
 2. Its output was checked against what DSS expects. The depth grid, the fields and the abundance
    conventions match DSS's exactly, so it can feed `dss.couple.forward.predict` without interpolation.
 3. Reference label Jacobians were built from **finite differences of re-converged Payne Zero
-   atmospheres**: 34 full solves at ±h and ±2h per label, at a tolerance 100× tighter than production.
-   The bases were two stars: the Sun and a metal-poor giant.
+   atmospheres**: 51 full solves at ±h and ±2h per label, at a tolerance 100× tighter than production.
+   The bases were three stars: the Sun, a metal-poor giant and Arcturus (a cool giant).
 4. The emulator's autodiff Jacobian was scored against the references at two levels:
    - the atmosphere itself, using DSS's G1 metrics;
    - the H-band (1550–1600 nm) **spectrum**, which is what a fit consumes.
@@ -31,19 +31,20 @@ initializer, made differentiable, supply those derivatives instead?
 **Answer.** The emulator's label derivatives are good enough to drive a fit, and much better than the
 emulator DSS rejected. They are not good enough to use directly as uncertainties.
 
-| | Sun | metal-poor giant |
-|---|---|---|
-| ∂T/∂Teff (the cell DSS's emulator failed by 2.6–14.5%) | **0.8%** | **1.5%** |
-| flux Jacobian, Teff | 3.6% | 4.5% |
-| flux Jacobian, logg | 7.5% | 2.6% |
-| flux Jacobian, [M/H] (atmosphere part only) | 1.1% | 3.4% |
-| flux Jacobian, [α/M] (atmosphere part only) | 7.0% | 10.6% |
-| cosine of every flux Jacobian | ≥ 0.998 | ≥ 0.997 |
+| | Sun | metal-poor giant | Arcturus |
+|---|---|---|---|
+| ∂T/∂Teff (the cell DSS's emulator failed by 2.6–14.5%) | **0.8%** | **1.5%** | **1.9%** |
+| flux Jacobian, Teff | 3.6% | 4.5% | 1.1% |
+| flux Jacobian, logg | 7.5% | 2.6% | 6.5% |
+| flux Jacobian, [M/H] (atmosphere part only) | 1.1% | 3.4% | 1.5% |
+| flux Jacobian, [α/M] (atmosphere part only) | 7.0% | 10.6% | 3.6% |
+| cosine of every flux Jacobian | ≥ 0.998 | ≥ 0.997 | ≥ 0.998 |
 
-The emulator fails in one specific place. The gas-pressure and column-mass derivatives are wrong in
-the upper atmosphere (up to about 2× above log τ ≈ −1 for Teff). The [α/M] column is 8–20% off.
-This is exactly the error mechanism DSS documented, appearing exactly where its arithmetic predicts.
-Most of it does not reach the H-band spectrum, which forms deeper.
+The emulator fails in two specific places. At the Sun, the gas-pressure and column-mass derivatives
+are wrong in the upper atmosphere (up to about 2× above log τ ≈ −1 for Teff); at the giants this is
+much milder. The [α/M] column is 6–28% off at every base, and worst at Arcturus, where ∂T/∂[α/M] is
+40–60% off above log τ = −1. This is exactly the error mechanism DSS documented, appearing exactly
+where its arithmetic predicts. Most of it does not reach the H-band spectrum, which forms deeper.
 
 **Recommendation for DSS.** Use a hybrid seam:
 - **Value:** take the atmosphere from a converged solve, as DSS does now.
@@ -54,8 +55,10 @@ A Gauss–Newton step with a Jacobian 2–10% off still converges to the same op
 optimum is set by exact residuals. So this removes most of the solver calls without biasing the
 result.
 
-**Not established.** A cool giant like Arcturus did not fit in this container's memory. Cool stars
-are where DSS found the worst emulator errors, so this is the most important missing check (§8).
+**The cool giant does not change this.** Cool stars are where DSS found the worst emulator errors.
+At Arcturus (4286 K) the atmosphere-level [α/M] Jacobian is the worst of the three bases, but the
+H-band flux Jacobians are as good as or better than at the other two (1.1–6.5%, cosine ≥ 0.998).
+This is one cool giant, not the cool-star regime (§8).
 
 ---
 
@@ -158,7 +161,9 @@ validated in this study:** everything in §4–§6 concerns the five-label initi
 - **Sun:** Teff 5777 K, logg 4.44, [M/H] 0, [α/M] 0, ξ 1.0 km/s.
 - **Metal-poor giant:** 5000 K, logg 2.50, [M/H] −1.50, [α/M] +0.40, ξ 1.5 km/s. This is an
   in-support point that I chose, not a named excluded star, so it is not verified to be held out.
-- **Arcturus** (4286 K, logg 1.66, [M/H] −0.52, [α/M] +0.30) was attempted but did not fit in memory (§4.3).
+- **Arcturus:** 4286 K, logg 1.66, [M/H] −0.52, [α/M] +0.30, ξ 1.7 km/s. It is not one of the named
+  excluded stars either; the nearest one, `giant`, is at 4500 K, logg 2.0, [M/H] −0.5, [α/M] +0.2.
+  Its first attempt ran out of memory; it was solved later on a larger machine (§4.3).
 
 **Perturbations.** Each of Teff, logg, [M/H] and [α/M] was perturbed by ±h and ±2h, with
 h = 25 K, 0.05, 0.05 and 0.05 respectively. The same steps as DSS's V1.3. Abundances are stored to
@@ -190,16 +195,21 @@ on that grid to a median of 1.0×10⁻⁴ dex (Sun) and 1.5×10⁻⁴ dex (giant
 |---|---|---|---|---|---|
 | Sun | 17 | 15 | 2: Teff+2h at 1.3e-4, [α/M]+2h at 1.7e-5 | 31.6 | 285 s |
 | giant | 17 | 9 | 8: six of them at 6e-6 to 1.3e-5; Teff+2h at 1.1e-4 and [M/H]−2h at 2.8e-4 | 55.1 | 363 s |
+| Arcturus | 17 | 13 | 4: [M/H]+h at 5.0e-6, [M/H]+2h at 1.1e-5, [α/M]+2h at 1.3e-5; [α/M]−2h at 7.7e-4 | 37.4 | 635 s |
 
-**Teff + 50 K never converged at either base.** Its per-iteration change plateaued around 1e-4. DSS saw
-the same limit-cycling with ATLAS12. The affected Richardson cells lose layers to the stability
-filter. The central ±h reference does not use those points.
+**Teff + 50 K never converged at the Sun or the giant.** Its per-iteration change plateaued around
+1e-4. DSS saw the same limit-cycling with ATLAS12. At Arcturus it converged in 24 iterations. The
+affected Richardson cells lose layers to the stability filter. The central ±h reference does not use
+those points. At Arcturus the unusable point is instead [α/M] − 2h (7.7e-4), so only the Arcturus
+[α/M] Richardson column is affected; its central ±h column agrees with it (§5.3).
 
 **The tolerance is not a limiting error** (`results/checks.json`). Re-solving the Sun base at 2e-5
 instead of 5e-6 moves ln T by a median of 2.1×10⁻⁵ over the band. That is 0.5% of the 25 K Teff
 signal (4.2×10⁻³).
 
-Wall times are for 4 CPU threads, at roughly 10–15 s per iteration.
+Wall times are for 4 CPU threads, at roughly 10–15 s per iteration (Sun, giant) and about 17 s per
+iteration (Arcturus). The Arcturus solves ran on a different machine (Xeon Gold 6526Y), four at a
+time, so their wall times are not strictly comparable.
 
 ### 4.3 Running in a 15 GB container
 
@@ -216,7 +226,13 @@ own. The out-of-memory killer stopped the first two Sun attempts at about 13.9 G
 
 **Arcturus** still ran out of memory in iteration 3, at 13.9 GB of process memory. In a cool giant
 many more molecular and weak atomic lines pass the opacity selection, so the per-iteration working
-arrays grow. It needs a machine with more memory, not a code change.
+arrays grow. It needed a machine with more memory, not a code change.
+
+**Arcturus on a 128 GB machine.** With the same patch and 4 threads, the base solve peaked at 19.9 GB
+maximum resident set size, which includes the memory-mapped catalog pages; each of the 16 perturbation
+solves peaked at about 19.5 GB. Running four solves at once used at most 71 GB of the machine in total,
+and the 17 solves finished in 61 minutes (`results/logs/arcturus_*.log`). A single Arcturus solve
+therefore needs a machine with about 24 GB or more, not the 32 GB first estimated.
 
 ---
 
@@ -232,6 +248,7 @@ reference's own one-sided uncertainty (§4.1).
 |---|---|---|---|---|
 | Sun | 0.06% | 2.3% | 0.23% | 0.95% |
 | giant | 0.06% | 3.3% | 0.41% | 1.1% |
+| Arcturus | 0.05% | 1.2% | 3.2% | 1.5% |
 
 ### 5.1 Sun
 
@@ -275,18 +292,43 @@ reference's own one-sided uncertainty (§4.1).
 | m / [α/M] | 0.088 / 0.9990 / 33 | 0.088 | 0.040 | fail |
 | n_e / [α/M] | 0.081 / 0.9994 / 24 | 0.121 | 0.160 | inconclusive |
 
-### 5.3 Reading the tables
+### 5.3 Arcturus
 
-- **Temperature against Teff passes at both bases** (0.8%, 1.5%), well inside the reference's
-  uncertainty. That is the most important cell for line formation. It is also the one where DSS's
-  emulator failed: −14.5% at τ = 1 at the Sun, with a band median of −2.6%, and 17 of 19 held-out
+| cell | Richardson rel / cos / layers | central ±h rel | ref. spread | verdict |
+|---|---|---|---|---|
+| T / Teff | 0.019 / 0.9998 / 33 | 0.019 | 0.009 | **pass** |
+| P_gas / Teff | 0.035 / 0.9997 / 33 | 0.034 | 0.033 | pass |
+| m / Teff | 0.072 / 0.9998 / 33 | 0.073 | 0.031 | fail (mild) |
+| n_e / Teff | 0.057 / 0.9986 / 33 | 0.056 | 0.042 | marginal |
+| T / logg | 0.174 / 0.9987 / 13 | 0.394 | 0.297 | inconclusive |
+| P_gas / logg | 0.015 / 1.0000 / 33 | 0.015 | 0.006 | pass |
+| m / logg | 0.030 / 1.0000 / 33 | 0.030 | 0.002 | pass |
+| n_e / logg | 0.030 / 0.9997 / 33 | 0.030 | 0.014 | pass |
+| T / [M/H] | 0.100 / 0.9989 / 15 | 0.216 | 0.157 | inconclusive |
+| P_gas / [M/H] | 0.020 / 0.9999 / 33 | 0.020 | 0.012 | pass |
+| m / [M/H] | 0.015 / 0.9999 / 33 | 0.015 | 0.005 | pass |
+| n_e / [M/H] | 0.042 / 0.9995 / 27 | 0.053 | 0.033 | pass |
+| T / [α/M] | 0.278 / 0.9643 / 16 | 0.336 | 0.130 | **fail** |
+| P_gas / [α/M] | 0.057 / 0.9991 / 33 | 0.057 | 0.037 | marginal |
+| m / [α/M] | 0.113 / 0.9985 / 33 | 0.113 | 0.031 | fail |
+| n_e / [α/M] | 0.120 / 0.9955 / 30 | 0.123 | 0.032 | fail |
+
+The [α/M] Richardson column uses the poorly converged [α/M] − 2h solve (§4.2). The central ±h column,
+which does not, gives the same verdicts.
+
+### 5.4 Reading the tables
+
+- **Temperature against Teff passes at all three bases** (0.8%, 1.5%, 1.9%), within or close to the
+  reference's uncertainty. That is the most important cell for line formation. It is also the one
+  where DSS's emulator failed: −14.5% at τ = 1 at the Sun, with a band median of −2.6%, and 17 of 19 held-out
   cells failing overall.
 
-- **Pressure-like fields against logg and [M/H] pass** at both bases (1–5%).
+- **Pressure-like fields against logg and [M/H] pass** at all three bases (1–5%).
 
-- **Temperature against logg, [M/H] and [α/M] cannot be judged here.** T barely responds to these
-  labels, and the forward and backward differences disagree by 8–49%, as much as or more than the
-  emulator's apparent error. Deciding these cells would need larger steps or a smoother reference.
+- **Temperature against logg and [M/H] cannot be judged here, nor T against [α/M] at the Sun and the
+  giant.** T barely responds to these labels, and the forward and backward differences disagree by
+  8–49%, as much as or more than the emulator's apparent error. Deciding these cells would need larger
+  steps or a smoother reference. Arcturus's T/[α/M] is the exception (below).
 
 - **Pressure and column mass against Teff fail at the Sun, and the failure is localized in depth.**
   `rel_l2_by_log_tau` in the JSON gives:
@@ -306,8 +348,15 @@ reference's own one-sided uncertainty (§4.1).
   In the giant the same pattern is far milder. P_gas/Teff is off by 10.5% (log τ −5 to −3),
   7.6% (−3 to −1) and 4.2% (−1 to 1); m/Teff peaks at 17% (−3 to −1). So the upper-atmosphere
   failure varies from star to star in size, which is also what DSS's mechanism predicts.
+  At Arcturus it is absent: P_gas/Teff is at most 5.3% in every depth range, and m/Teff peaks at 10%
+  (−1 to 1).
 
-- **The [α/M] column is the weakest.** The worst case is the giant's P_gas/[α/M] at 20%.
+- **The [α/M] column is the weakest, and worst at Arcturus.** At the Sun and the giant the worst case
+  is the giant's P_gas/[α/M] at 20%. At Arcturus T/[α/M] fails clearly, the only temperature cell
+  at any base that does: 34% against a reference spread of 13%. By depth it is 40% (log τ −5 to −3),
+  62% (−3 to −1), 26% (−1 to 1) and 4.7% (1 to 2). m/[α/M] and n_e/[α/M] are off by 11–12% against a
+  spread of 3%. Cool, molecule-rich atmospheres are where DSS's emulator was worst too. §6 shows how
+  little of this reaches the H band.
 
 ---
 
@@ -329,12 +378,20 @@ The window is 1550–1600 nm, the H band where DSS and Payne Zero calibrate, wit
 
 **Flux-Jacobian error** (`results/runs/*/flux_jacobian.json`):
 
-| label | Sun rel-L2 | Sun cos | Sun gain | Sun T-only arm | giant rel-L2 | giant cos | giant gain | giant T-only arm |
-|---|---|---|---|---|---|---|---|---|
-| Teff | 0.036 | 0.9999 | 1.032 | 0.005 | 0.045 | 0.9991 | 1.015 | 0.012 |
-| logg | 0.075 | 0.9979 | 1.034 | 0.013 | 0.026 | 0.9999 | 0.979 | 0.031 |
-| [M/H] | 0.006 | 1.0000 | 1.001 | 0.002 | 0.013 | 1.0000 | 0.988 | 0.008 |
-| [α/M] | 0.051 | 0.9987 | 1.007 | 0.011 | 0.053 | 0.9986 | 0.990 | 0.009 |
+| base | label | rel-L2 | cos | gain | T-only arm |
+|---|---|---|---|---|---|
+| Sun | Teff | 0.036 | 0.9999 | 1.032 | 0.005 |
+| Sun | logg | 0.075 | 0.9979 | 1.034 | 0.013 |
+| Sun | [M/H] | 0.006 | 1.0000 | 1.001 | 0.002 |
+| Sun | [α/M] | 0.051 | 0.9987 | 1.007 | 0.011 |
+| giant | Teff | 0.045 | 0.9991 | 1.015 | 0.012 |
+| giant | logg | 0.026 | 0.9999 | 0.979 | 0.031 |
+| giant | [M/H] | 0.013 | 1.0000 | 0.988 | 0.008 |
+| giant | [α/M] | 0.053 | 0.9986 | 0.990 | 0.009 |
+| Arcturus | Teff | 0.011 | 0.9999 | 1.001 | 0.008 |
+| Arcturus | logg | 0.065 | 0.9983 | 1.025 | 0.008 |
+| Arcturus | [M/H] | 0.013 | 1.0000 | 0.989 | 0.003 |
+| Arcturus | [α/M] | 0.032 | 0.9995 | 1.011 | 0.008 |
 
 "Gain" is the projection of the emulator's Jacobian onto the reference's: ⟨J_emu, J_ref⟩ / ‖J_ref‖².
 A gain of 1.03 means the fit would see that label's sensitivity 3% too large.
@@ -343,20 +400,30 @@ A gain of 1.03 means the fit would see that label's sensitivity 3% too large.
 abundance term (base atmosphere held fixed, abundances at l ± h) is common to both arms, so it flatters
 the scores above. Removing it:
 
-| label | Sun: atmosphere share of the total | Sun: emulator error on it | giant: atmosphere share | giant: emulator error on it |
-|---|---|---|---|---|
-| [M/H] | 59% | 1.1% (cos 0.9999) | 38% | 3.4% (cos 0.9999) |
-| [α/M] | 73% | 7.0% (cos 0.9976) | 50% | 10.6% (cos 0.9966) |
+| base | label | atmosphere share of the total | emulator error on it |
+|---|---|---|---|
+| Sun | [M/H] | 59% | 1.1% (cos 0.9999) |
+| Sun | [α/M] | 73% | 7.0% (cos 0.9976) |
+| giant | [M/H] | 38% | 3.4% (cos 0.9999) |
+| giant | [α/M] | 50% | 10.6% (cos 0.9966) |
+| Arcturus | [M/H] | 86% | 1.5% (cos 0.9999) |
+| Arcturus | [α/M] | 89% | 3.6% (cos 0.9996) |
 
 **Reading.**
 - **Every flux Jacobian points the right way** (cosine ≥ 0.997). Magnitudes are within 1–8% for
-  Teff, logg and [M/H], and within 7–11% for the atmosphere part of [α/M].
+  Teff, logg and [M/H], and within 4–11% for the atmosphere part of [α/M].
 - **The upper-atmosphere pressure failure barely reaches the H band.** With the emulator's temperature
-  derivative and the reference pressure derivatives, every label is at 0.2–3.1%. So the residual flux
+  derivative and the reference pressure derivatives, every label at every base is at 0.2–3.1%. So the residual flux
   error comes from the pressure-like fields, but is much smaller than their atmosphere-level error,
   because the H-band continuum and most lines form deeper.
 - **Exception: giant logg.** There the T-only arm (3.1%) is worse than the full emulator (2.6%), so the
   T and pressure errors partly cancel.
+- **Arcturus's [α/M] failure barely reaches the H band either.** It has the worst atmosphere-level
+  [α/M] Jacobian (§5.4) but the best flux score for the atmosphere part of [α/M] (3.6%). That part is
+  89% of the total at Arcturus, so the direct abundance term is not what makes the score look good.
+  With the emulator's temperature tangent alone the error is 0.8%: T's absolute response to [α/M] is
+  small, so even a 26% error in it near log τ = 0 moves the flux little. The rest comes from
+  m and n_e.
 - **Wavelength dependence.** Bands whose lines form higher (strong-line cores, the blue and UV) will be
   more sensitive to the upper-atmosphere pressure error. These numbers do not transfer to them without
   re-measurement.
@@ -383,11 +450,11 @@ Ranked by how directly the measurements support each option:
    errors: about 2–3% in P_gas and about 0.06% in T. DSS's §5 shows these slope errors are smooth over
    hundreds of kelvin, so they bias the labels rather than adding noise.
 
-3. **Not recommended:** emulator derivatives as the final Jacobian for uncertainties. [α/M] (7–11%) and
-   logg (up to 7.5%) are too far off, and the cool-star regime is unmeasured.
+3. **Not recommended:** emulator derivatives as the final Jacobian for uncertainties. [α/M] (4–11%) and
+   logg (up to 7.5%) are too far off, and the cool-star regime is sampled by only one star.
 
 **Separate observation.** Payne Zero's solver is a reimplementation of ATLAS12 with the same
-abundance conventions as DSS. Here it re-converged a model in 3–9 minutes on 4 threads. As the value
+abundance conventions as DSS. Here it re-converged a model in 3–18 minutes on 4 threads. As the value
 source behind DSS's seam it would be in-process and warm-started by the same initializer. Whether it is
 consistent enough with DSS's pyKurucz ATLAS12 to keep Phase 3's 0.06 K seam budget would have to be
 re-measured.
@@ -396,19 +463,21 @@ re-measured.
 
 ## 8. Limitations
 
-1. **Two stars, one band.** The Sun and one metal-poor giant, in 1550–1600 nm. That is not a survey of
-   the label space or of wavelength.
-2. **No cool giant.** Arcturus ran out of memory (§4.3). DSS found its emulator's errors worst toward
-   cool, molecule-rich atmospheres. This is the most important open check: the same scripts at 4300 K
-   on a machine with about 32 GB.
+1. **Three stars, one band.** The Sun, one metal-poor giant and Arcturus, in 1550–1600 nm. That is
+   not a survey of the label space or of wavelength.
+2. **One cool star.** DSS found its emulator's errors worst toward cool, molecule-rich atmospheres.
+   Arcturus confirms this at the atmosphere level for [α/M] (§5.4) without it reaching the H band
+   (§6). Cool dwarfs are unmeasured; a `kdwarf` base (4500 K, logg 4.6) is defined in
+   `fd_reference.py` but was not run.
 3. **The reference is Payne Zero's own solver, not ATLAS12.** The emulator was trained to imitate this
    solver, which favours it. Against DSS's ATLAS12 references, agreement could be somewhat lower.
-4. **The giant base is not a verified hold-out.** The Sun matches an excluded reference star. The giant
-   is an arbitrary in-support point and may lie near training models.
-5. **Incomplete convergence.** Of the 34 solves, 24 met the 5×10⁻⁶ target. Seven more stopped at the
-   iteration cap between 6×10⁻⁶ and 1.7×10⁻⁵, still at least 30× tighter than production. Three are
-   unusable: Teff + 2h at both bases, and the giant's [M/H] − 2h, between 1.1×10⁻⁴ and 2.8×10⁻⁴. All
-   three are 2h points. They degrade only the Richardson column, where the stability filter drops the
+4. **The giant bases are not verified hold-outs.** The Sun matches an excluded reference star. The
+   metal-poor giant is an arbitrary in-support point and may lie near training models. Arcturus is not
+   one of the excluded stars either; the nearest one is 214 K hotter and 0.34 dex higher in logg.
+5. **Incomplete convergence.** Of the 51 solves, 37 met the 5×10⁻⁶ target. Ten more stopped at the
+   iteration cap between 5×10⁻⁶ and 1.7×10⁻⁵, still at least 30× tighter than production. Four are
+   unusable: Teff + 2h at the Sun and the giant, the giant's [M/H] − 2h, and Arcturus's [α/M] − 2h,
+   between 1.1×10⁻⁴ and 7.7×10⁻⁴. All four are 2h points. They degrade only the Richardson column, where the stability filter drops the
    affected layers. The central ±h references and all flux tests use only ±h solves, and each of those
    converged or stopped below 2×10⁻⁵.
 6. **Weak-signal cells.** T against logg, [M/H] and [α/M] are unresolved because the true response is
@@ -430,7 +499,7 @@ re-measured.
     `python payne_zero_atmosphere/install_runtime_data.py --manifest source_data_files/runtime_data_manifest.json verify --root source_data_files`;
   - `export PAYNE_ZERO_DATA_ROOT=<checkout>/source_data_files`.
 - `pip install -e ".[validation]"` in this repository (adds torch and scipy).
-- About 15 GB of RAM for the Sun and the metal-poor giant; more for Arcturus.
+- About 15 GB of RAM for the Sun and the metal-poor giant; about 20 GB per Arcturus solve (§4.3).
 - About 5 GB of free disk for `validation/work/`.
 
 ```bash
@@ -442,12 +511,15 @@ python fd_reference.py build-catalog         # work/predicted_atomic_lines_all.n
 
 python fd_reference.py solve --base sun              # 17 solves, ~80 min on 4 threads; resumable
 python fd_reference.py solve --base metalpoor_giant  # 17 solves, ~100 min
+python fd_reference.py solve --base arcturus         # 17 solves, ~3 h; or split with --only (§4.3)
 
-python compare.py results/runs/sun results/runs/metalpoor_giant      # results/atmosphere_jacobian.json
+python compare.py results/runs/sun results/runs/metalpoor_giant results/runs/arcturus  # results/atmosphere_jacobian.json
 python flux_jacobian.py results/runs/sun --wl 1550 1600 --r-grid 100000
 python flux_jacobian.py results/runs/metalpoor_giant --wl 1550 1600 --r-grid 100000
-python flux_split.py results/runs/sun
+python flux_jacobian.py results/runs/arcturus --wl 1550 1600 --r-grid 100000
+python flux_split.py results/runs/sun                # after flux_jacobian.py: reads its flux_jac_*.npz
 python flux_split.py results/runs/metalpoor_giant
+python flux_split.py results/runs/arcturus
 python checks.py                             # results/checks.json (DSS checkout optional, via $DSS_REPO)
 ```
 
@@ -481,5 +553,5 @@ therefore applies unchanged to the package.
 | `results/runs/sun/base_tol2e-5.npz` | the Sun base at the looser tolerance (§4.2 check) |
 | `results/runs/<base>/flux_jac_<label>.npz` | wavelength and the three flux-Jacobian arms |
 | `results/runs/<base>/flux_jacobian.json`, `flux_split.json` | §6 tables |
-| `results/logs/` | solver and synthesis logs; `mem.log` holds the memory trace of the patched run. `campaign.log` also contains the out-of-memory Arcturus attempt |
+| `results/logs/` | solver and synthesis logs; `mem.log` holds the memory trace of the patched run. `campaign.log` also contains the out-of-memory Arcturus attempt; `arcturus_*.log` are the later Arcturus solves (with `/usr/bin/time -v` peak memory), `arcturus_mem.log` their machine-wide memory trace, and `flux_arcturus.log`/`flux_split_arcturus.log` its synthesis |
 | `work/` (git-ignored) | exported weights and the combined catalog, regenerated by the commands above |

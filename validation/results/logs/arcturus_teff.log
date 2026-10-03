@@ -1,0 +1,31 @@
+[arcturus] teff_p1 labels=[4311.0, 1.66, -0.52, 0.3, 1.7]
+   converged=True iters=23 wall=417s dT_deep=4.770921680661368e-06
+[arcturus] teff_m1 labels=[4261.0, 1.66, -0.52, 0.3, 1.7]
+   converged=True iters=32 wall=549s dT_deep=4.7588637510413485e-06
+[arcturus] teff_p2 labels=[4336.0, 1.66, -0.52, 0.3, 1.7]
+   converged=True iters=24 wall=388s dT_deep=4.861331109656144e-06
+[arcturus] teff_m2 labels=[4236.0, 1.66, -0.52, 0.3, 1.7]
+   converged=True iters=37 wall=615s dT_deep=2.392133117664025e-06
+	Command being timed: "python -u fd_reference.py solve --base arcturus --only teff_p1,teff_m1,teff_p2,teff_m2"
+	User time (seconds): 4307.21
+	System time (seconds): 156.82
+	Percent of CPU this job got: 226%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 32:53.20
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 19520920
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 42
+	Minor (reclaiming a frame) page faults: 14728731
+	Voluntary context switches: 12915
+	Involuntary context switches: 10999
+	Swaps: 0
+	File system inputs: 128
+	File system outputs: 176
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
