@@ -44,7 +44,10 @@ The emulator fails in two specific places. At the Sun, the gas-pressure and colu
 are wrong in the upper atmosphere (up to about 2× above log τ ≈ −1 for Teff); at the giants this is
 much milder. The [α/M] column is 6–28% off at every base, and worst at Arcturus, where ∂T/∂[α/M] is
 40–60% off above log τ = −1. This is exactly the error mechanism DSS documented, appearing exactly
-where its arithmetic predicts. Most of it does not reach the H-band spectrum, which forms deeper.
+where its arithmetic predicts. Most of it does not reach the H-band spectrum, which forms deeper, nor
+the window-averaged flux Jacobian in the J and Ks bands or at 420–440, 510–520 or 846–870 nm. Strong-line cores are the
+exception: in the Mg b and Ca II triplet cores the logg and [α/M] flux derivatives are 10–60% off
+(§6.2).
 
 **Recommendation for DSS.** Use a hybrid seam:
 - **Value:** take the atmosphere from a converged solve, as DSS does now.
@@ -424,9 +427,92 @@ the scores above. Removing it:
   With the emulator's temperature tangent alone the error is 0.8%: T's absolute response to [α/M] is
   small, so even a 26% error in it near log τ = 0 moves the flux little. The rest comes from
   m and n_e.
-- **Wavelength dependence.** Bands whose lines form higher (strong-line cores, the blue and UV) will be
-  more sensitive to the upper-atmosphere pressure error. These numbers do not transfer to them without
-  re-measurement.
+- **Wavelength dependence.** Bands whose lines form higher (strong-line cores, the blue and UV) were
+  expected to be more sensitive to the upper-atmosphere pressure error. §6.1 measures three more
+  windows; §6.2 measures the strong-line cores themselves.
+
+### 6.1 Other bands
+
+The same test, with the same 51 solves, in five more windows. Three are where more of the spectrum
+forms higher than in the H band: 420–440 nm (blue, with the CH G band; 4,652 pixels), 510–520 nm
+(Mg I b; 1,942 pixels) and 846–870 nm (the Gaia RVS window, with the Ca II triplet; 2,797 pixels).
+Two are the other near-infrared bands: J at 1170–1330 nm (12,818 pixels) and Ks at 2000–2300 nm,
+including the CO bandheads (13,976 pixels). All at R_grid = 100,000
+(`results/runs/*/flux_jacobian_<band>nm.json`, `flux_split_<band>nm.json`).
+
+**Flux-Jacobian rel-L2** (cosine in parentheses where it is below 0.998; [M/H] and [α/M] on the
+atmosphere part only):
+
+| base | band (nm) | Teff | logg | [M/H] atm. | [α/M] atm. |
+|---|---|---|---|---|---|
+| Sun | 1550–1600 | 0.036 | 0.075 (0.9979) | 0.011 | 0.070 (0.9976) |
+| Sun | 420–440 | 0.037 | 0.110 (0.9966) | 0.007 | 0.054 |
+| Sun | 510–520 | 0.037 | 0.073 | 0.008 | 0.069 |
+| Sun | 846–870 | 0.067 | 0.117 (0.9940) | 0.017 | 0.079 |
+| Sun | 1170–1330 (J) | 0.037 | 0.073 | 0.012 | 0.089 (0.9971) |
+| Sun | 2000–2300 (Ks) | 0.034 | 0.065 | 0.012 | 0.081 (0.9973) |
+| giant | 1550–1600 | 0.045 | 0.026 | 0.034 | 0.106 (0.9966) |
+| giant | 420–440 | 0.023 | 0.022 | 0.030 | 0.078 |
+| giant | 510–520 | 0.015 | 0.017 | 0.030 | 0.087 |
+| giant | 846–870 | 0.028 | 0.037 | 0.038 | 0.048 |
+| giant | 1170–1330 (J) | 0.019 | 0.030 | 0.036 | 0.060 |
+| giant | 2000–2300 (Ks) | 0.018 | 0.057 | 0.034 | 0.055 |
+| Arcturus | 1550–1600 | 0.011 | 0.065 | 0.015 | 0.036 |
+| Arcturus | 420–440 | 0.009 | 0.076 (0.9974) | 0.015 | 0.038 |
+| Arcturus | 510–520 | 0.008 | 0.069 (0.9979) | 0.016 | 0.045 |
+| Arcturus | 846–870 | 0.012 | 0.055 | 0.025 | 0.080 |
+| Arcturus | 1170–1330 (J) | 0.013 | 0.063 | 0.025 | 0.065 |
+| Arcturus | 2000–2300 (Ks) | 0.013 | 0.054 | 0.017 | 0.052 |
+
+**Window-averaged, no band is much worse than the H band.** Every cosine is ≥ 0.994, Teff and [M/H] stay
+below 7%, and the atmosphere part of [α/M] within 4–11%. logg is the weakest label, worst at the Sun
+in the blue and in the RVS window (11–12%, gain 1.03–1.07). In the Sun's blue window the atmosphere
+part of [M/H] and [α/M] is larger than the total (share 1.13 and 1.09): the direct and atmosphere
+terms partly cancel there. J and Ks behave like the H band: Teff 1–4%, logg 3–7%, [M/H] 1–4%, the
+atmosphere part of [α/M] 5–9%, every cosine ≥ 0.997. The near-infrared result does not depend on which
+of J, H or Ks a fit uses.
+
+### 6.2 Strong-line cores (`flux_cores.py`)
+
+A window-wide rel-L2 is dominated by weak lines and wings, so it hides what happens where the
+spectrum forms highest. `flux_cores.py` synthesizes the base spectrum, finds the minimum of each
+strong line, takes the contiguous pixels whose depth is at least 80% of the minimum's, and scores the
+saved flux-Jacobian arms on those pixels only (9–20 pixels per line group). A core responds weakly
+and holds few pixels, so the reference's own noise is reported as in §5: the disagreement of the two
+one-sided differences (`results/runs/*/flux_cores.json`).
+
+**rel-L2 of the emulator's flux Jacobian in the cores / reference spread** (bold: error well above
+the spread):
+
+| base | lines | Teff | logg | [M/H] | [α/M] |
+|---|---|---|---|---|---|
+| Sun | Ca II triplet | 0.113 / 0.077 | **0.219** / 0.010 | **0.097** / 0.013 | **0.092** / 0.018 |
+| Sun | Mg I b | 0.027 / 0.015 | **0.622** / 0.028 | 0.046 / 0.031 | **0.149** / 0.026 |
+| giant | Ca II triplet | 0.062 / 0.066 | 0.044 / 0.023 | 0.033 / 0.020 | **0.198** / 0.043 |
+| giant | Mg I b | 0.009 / 0.019 | 0.539 / 0.324 | 0.019 / 0.028 | 0.073 / 0.039 |
+| Arcturus | Ca II triplet | 0.171 / 0.351 | 0.034 / 0.022 | 0.006 / 0.054 | **0.284** / 0.061 |
+| Arcturus | Mg I b | 0.041 / 0.080 | **0.104** / 0.018 | 0.007 / 0.036 | **0.157** / 0.038 |
+
+**Reading.**
+- **Strong-line cores expose errors of 10–60% that the window averages hide.** The worst is the Sun's
+  Mg b logg derivative: 62% off, cosine 0.84, against a reference spread of 3%.
+- **For logg and [M/H] the error is the temperature tangent.** The arm with only the emulator's T
+  reproduces it: 59% of the Sun's Mg b logg error, 19% of its Ca II logg error, 9% of its Ca II [M/H]
+  error. These are exactly the T/logg and T/[M/H] cells that §5 could not resolve, because T barely
+  responds there and the atmosphere-level reference was too noisy. Line cores are a more sensitive
+  probe of them, and in the upper atmosphere the emulator's ∂T/∂logg is wrong.
+- **For [α/M] it is mixed.** At the Sun and Arcturus the T-only arm is 3–14%, so most of the core error
+  comes from the pressure-like fields. At the giant's Ca II cores it comes from T (22%).
+- **J and Ks have no comparable cores.** `flux_cores.py` also scores the K I doublet (1243, 1252 nm)
+  and the Na I doublet (2206, 2208 nm), but at this sampling their cores are one pixel per line, and
+  the reference spread on two pixels is up to 42%. Those entries in `flux_cores.json` are not
+  informative and are left out of the table.
+- **Caveat: these are LTE cores.** Real Ca II triplet and Mg b cores carry NLTE and chromospheric
+  effects that no 1D LTE model reproduces, so a fit would usually down-weight or mask them anyway.
+- **Consequence.** A fit across a whole window is still driven by the window-averaged Jacobian
+  (§6.1). A fit dominated by strong-line cores, for example a logg estimate from Mg b alone, would see
+  sensitivities tens of percent off. That is a step-size problem for the optimizer, not a bias, but it
+  is a reason to keep the finite-difference Jacobian for uncertainties.
 
 ---
 
@@ -451,7 +537,8 @@ Ranked by how directly the measurements support each option:
    hundreds of kelvin, so they bias the labels rather than adding noise.
 
 3. **Not recommended:** emulator derivatives as the final Jacobian for uncertainties. [α/M] (4–11%) and
-   logg (up to 7.5%) are too far off, and the cool-star regime is sampled by only one star.
+   logg (up to 12%) are too far off across whole windows, strong-line cores are 10–60% off (§6.2), and
+   the cool-star regime is sampled by only one star.
 
 **Separate observation.** Payne Zero's solver is a reimplementation of ATLAS12 with the same
 abundance conventions as DSS. Here it re-converged a model in 3–18 minutes on 4 threads. As the value
@@ -463,8 +550,9 @@ re-measured.
 
 ## 8. Limitations
 
-1. **Three stars, one band.** The Sun, one metal-poor giant and Arcturus, in 1550–1600 nm. That is
-   not a survey of the label space or of wavelength.
+1. **Three stars, six windows.** The Sun, one metal-poor giant and Arcturus, in 420–440, 510–520,
+   846–870, 1170–1330 (J), 1550–1600 (H) and 2000–2300 nm (Ks). That is not a survey of the label space or of wavelength; the UV and
+   strong-line regions other than Mg b and the Ca II triplet are unmeasured. All synthesis is LTE.
 2. **One cool star.** DSS found its emulator's errors worst toward cool, molecule-rich atmospheres.
    Arcturus confirms this at the atmosphere level for [α/M] (§5.4) without it reaching the H band
    (§6). Cool dwarfs are unmeasured; a `kdwarf` base (4500 K, logg 4.6) is defined in
@@ -480,8 +568,9 @@ re-measured.
    between 1.1×10⁻⁴ and 7.7×10⁻⁴. All four are 2h points. They degrade only the Richardson column, where the stability filter drops the
    affected layers. The central ±h references and all flux tests use only ±h solves, and each of those
    converged or stopped below 2×10⁻⁵.
-6. **Weak-signal cells.** T against logg, [M/H] and [α/M] are unresolved because the true response is
-   smaller than the finite-difference noise at these steps.
+6. **Weak-signal cells.** T against logg, [M/H] and [α/M] are unresolved at the atmosphere level
+   because the true response is smaller than the finite-difference noise at these steps. Strong-line
+   cores (§6.2) indirectly show the emulator's ∂T/∂logg and ∂T/∂[M/H] to be wrong at the Sun.
 7. **Only the five-label initializer.** The eight-label CNO and direct-abundance initializers were not
    tested. Direct-abundance mode, with about 80 [X/Fe] labels, is where autodiff would save the most
    (about 80 solves per Jacobian), and it is unmeasured.
@@ -520,6 +609,13 @@ python flux_jacobian.py results/runs/arcturus --wl 1550 1600 --r-grid 100000
 python flux_split.py results/runs/sun                # after flux_jacobian.py: reads its flux_jac_*.npz
 python flux_split.py results/runs/metalpoor_giant
 python flux_split.py results/runs/arcturus
+for band in "420 440" "510 520" "846 870" "1170 1330" "2000 2300"; do for base in sun metalpoor_giant arcturus; do
+  python flux_jacobian.py results/runs/$base --wl $band   # outputs suffixed _<band>nm
+  python flux_split.py results/runs/$base --wl $band
+done; done
+python flux_cores.py results/runs/sun                # after the band runs above; one base per call
+python flux_cores.py results/runs/metalpoor_giant
+python flux_cores.py results/runs/arcturus
 python checks.py                             # results/checks.json (DSS checkout optional, via $DSS_REPO)
 ```
 
@@ -545,6 +641,7 @@ therefore applies unchanged to the package.
 | `compare.py` | atmosphere-level Jacobian scores (Richardson and central ±h with reference spread) |
 | `flux_jacobian.py` | spectrum-level Jacobian test (reference, emulator, T-only arms) |
 | `flux_split.py` | direct versus atmosphere split for [M/H] and [α/M] |
+| `flux_cores.py` | flux-Jacobian scores on strong-line core pixels, with the reference's one-sided spread |
 | `checks.py` | τ-grid alignment, tolerance sensitivity, DSS convention identity |
 | `results/parity.json` | port parity at five labels |
 | `results/atmosphere_jacobian.json` | §5 tables, including depth-resolved errors |
@@ -552,6 +649,8 @@ therefore applies unchanged to the package.
 | `results/runs/<base>/<label>_{p,m}{1,2}.npz`, `base.npz` | each solve: labels, convergence, diagnostics, canonical-grid and native T, P_gas, m, n_e |
 | `results/runs/sun/base_tol2e-5.npz` | the Sun base at the looser tolerance (§4.2 check) |
 | `results/runs/<base>/flux_jac_<label>.npz` | wavelength and the three flux-Jacobian arms |
-| `results/runs/<base>/flux_jacobian.json`, `flux_split.json` | §6 tables |
+| `results/runs/<base>/flux_jacobian.json`, `flux_split.json` | §6 tables (H band) |
+| `results/runs/<base>/flux_jac_<label>_<band>nm.npz`, `flux_jacobian_<band>nm.json`, `flux_split_<band>nm.json` | §6.1 (other bands) |
+| `results/runs/<base>/flux_cores.json` | §6.2 |
 | `results/logs/` | solver and synthesis logs; `mem.log` holds the memory trace of the patched run. `campaign.log` also contains the out-of-memory Arcturus attempt; `arcturus_*.log` are the later Arcturus solves (with `/usr/bin/time -v` peak memory), `arcturus_mem.log` their machine-wide memory trace, and `flux_arcturus.log`/`flux_split_arcturus.log` its synthesis |
 | `work/` (git-ignored) | exported weights and the combined catalog, regenerated by the commands above |

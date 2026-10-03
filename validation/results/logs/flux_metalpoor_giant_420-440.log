@@ -1,0 +1,27 @@
+metalpoor_giant/teff: emulator rel 0.023 cos 1.0000 gain 1.022 | T-only-from-emulator rel 0.005
+metalpoor_giant/logg: emulator rel 0.022 cos 0.9998 gain 0.988 | T-only-from-emulator rel 0.023
+metalpoor_giant/mh: emulator rel 0.026 cos 0.9999 gain 0.978 | T-only-from-emulator rel 0.006
+metalpoor_giant/am: emulator rel 0.068 cos 0.9987 gain 1.043 | T-only-from-emulator rel 0.012
+	Command being timed: "python -u flux_jacobian.py results/runs/metalpoor_giant --wl 420 440 --r-grid 100000"
+	User time (seconds): 793.16
+	System time (seconds): 218.13
+	Percent of CPU this job got: 350%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 4:48.93
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 4476932
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 7
+	Minor (reclaiming a frame) page faults: 85555349
+	Voluntary context switches: 8565
+	Involuntary context switches: 1507
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 116520
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

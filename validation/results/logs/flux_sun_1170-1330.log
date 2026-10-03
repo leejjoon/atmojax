@@ -1,0 +1,27 @@
+sun/teff: emulator rel 0.037 cos 0.9998 gain 1.029 | T-only-from-emulator rel 0.004
+sun/logg: emulator rel 0.073 cos 0.9981 gain 1.036 | T-only-from-emulator rel 0.027
+sun/mh: emulator rel 0.007 cos 1.0000 gain 1.002 | T-only-from-emulator rel 0.005
+sun/am: emulator rel 0.055 cos 0.9987 gain 1.017 | T-only-from-emulator rel 0.014
+	Command being timed: "python -u flux_jacobian.py results/runs/sun --wl 1170 1330 --r-grid 100000"
+	User time (seconds): 1771.56
+	System time (seconds): 337.43
+	Percent of CPU this job got: 371%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 9:28.09
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 4772148
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 26
+	Minor (reclaiming a frame) page faults: 142677417
+	Voluntary context switches: 10817
+	Involuntary context switches: 3300
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 198264
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

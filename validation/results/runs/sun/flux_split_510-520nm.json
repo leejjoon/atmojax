@@ -1,0 +1,12 @@
+{
+ "mh": {
+  "atmosphere_share_of_total": 0.7667622424325968,
+  "rel_l2_emulator_on_atmosphere_part": 0.008443640527950831,
+  "cosine_emulator_on_atmosphere_part": 0.999965155217603
+ },
+ "am": {
+  "atmosphere_share_of_total": 0.8598183277993358,
+  "rel_l2_emulator_on_atmosphere_part": 0.06870553964829022,
+  "cosine_emulator_on_atmosphere_part": 0.9986187640501155
+ }
+}

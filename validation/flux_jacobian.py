@@ -8,6 +8,7 @@ A third arm moves only T along the emulator tangent and P_gas, m, n_e along the 
 to attribute any error to temperature or to the pressure-like fields.
 
     python flux_jacobian.py results/runs/sun --wl 1550 1600 --r-grid 100000
+    python flux_jacobian.py results/runs/sun --wl 510 520     # other bands: outputs suffixed _510-520nm
 """
 from __future__ import annotations
 
@@ -20,6 +21,12 @@ import fd_reference as F
 from common import initializer
 
 FIELDS = ("T", "P_gas", "m", "n_e")
+H_BAND = (1550.0, 1600.0)
+
+
+def band_suffix(wl) -> str:
+    """Output-name suffix for a band; empty for the H band so the recorded results keep their names."""
+    return "" if tuple(map(float, wl)) == H_BAND else f"_{wl[0]:g}-{wl[1]:g}nm"
 
 
 def abundances(labels):
@@ -48,11 +55,12 @@ def native(z):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("base_dir")
-    p.add_argument("--wl", type=float, nargs=2, default=(1550.0, 1600.0))
+    p.add_argument("--wl", type=float, nargs=2, default=H_BAND)
     p.add_argument("--r-grid", type=float, default=100000.0)
     p.add_argument("--labels", default="teff,logg,mh,am")
     a = p.parse_args()
     d = Path(a.base_dir)
+    sfx = band_suffix(a.wl)
     base_labels = np.array(F.BASES[d.name])
     xi = base_labels[4]
     Je = np.asarray(initializer().log_state_jacobian(base_labels))   # (4, 80, 5)
@@ -94,8 +102,8 @@ def main():
                         "n_pix": int(wl.size)}
         print(f"{d.name}/{lab}: emulator rel {rel(demu):.3f} cos {cos(demu):.4f} gain {gain:.3f} | "
               f"T-only-from-emulator rel {rel(dt):.3f}", flush=True)
-        np.savez(d / f"flux_jac_{lab}.npz", wl=wl, ref=dref, emu=demu, t_only=dt)
-    Path(d / "flux_jacobian.json").write_text(json.dumps(results, indent=1))
+        np.savez(d / f"flux_jac_{lab}{sfx}.npz", wl=wl, ref=dref, emu=demu, t_only=dt)
+    Path(d / f"flux_jacobian{sfx}.json").write_text(json.dumps(results, indent=1))
 
 
 if __name__ == "__main__":

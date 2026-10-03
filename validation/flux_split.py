@@ -7,6 +7,7 @@ emulator's score.  Here the direct part is computed explicitly (base atmosphere 
 at l +- h) and removed from both arms, and the emulator is scored on the atmosphere part alone.
 
     python flux_split.py results/runs/sun        # needs flux_jac_{mh,am}.npz from flux_jacobian.py
+    python flux_split.py results/runs/sun --wl 510 520   # same --wl as flux_jacobian.py
 """
 from __future__ import annotations
 
@@ -22,15 +23,16 @@ import flux_jacobian as FJ
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("base_dir")
-    p.add_argument("--wl", type=float, nargs=2, default=(1550.0, 1600.0))
+    p.add_argument("--wl", type=float, nargs=2, default=FJ.H_BAND)
     p.add_argument("--r-grid", type=float, default=100000.0)
     a = p.parse_args()
     d = Path(a.base_dir)
+    sfx = FJ.band_suffix(a.wl)
     xi = F.BASES[d.name][4]
     base = FJ.native(np.load(d / "base.npz"))
     out = {}
     for lab in ("mh", "am"):
-        z = np.load(d / f"flux_jac_{lab}.npz")
+        z = np.load(d / f"flux_jac_{lab}{sfx}.npz")
         h = F.STEPS[lab]
         ab_p = FJ.abundances(np.load(d / f"{lab}_p1.npz")["labels"])
         ab_m = FJ.abundances(np.load(d / f"{lab}_m1.npz")["labels"])
@@ -44,7 +46,7 @@ def main():
             "cosine_emulator_on_atmosphere_part": float(e @ r / (np.linalg.norm(e) * np.linalg.norm(r))),
         }
         print(f"{d.name}/{lab}: " + "  ".join(f"{k} {v:.4f}" for k, v in out[lab].items()), flush=True)
-    (d / "flux_split.json").write_text(json.dumps(out, indent=1))
+    (d / f"flux_split{sfx}.json").write_text(json.dumps(out, indent=1))
 
 
 if __name__ == "__main__":

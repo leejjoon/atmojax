@@ -1,0 +1,34 @@
+{
+ "teff": {
+  "rel_l2_emulator": 0.012827996284100477,
+  "cosine_emulator": 0.9999177819771031,
+  "projected_gain": 1.0001935952864054,
+  "rel_l2_T_only_emulator": 0.0077455978171160405,
+  "rms_dflux_per_unit": 4.1429484293386446e-05,
+  "n_pix": 12818
+ },
+ "logg": {
+  "rel_l2_emulator": 0.0628917293962765,
+  "cosine_emulator": 0.9989795838067995,
+  "projected_gain": 1.0416828701408665,
+  "rel_l2_T_only_emulator": 0.011780697987509732,
+  "rms_dflux_per_unit": 0.012373843456686882,
+  "n_pix": 12818
+ },
+ "mh": {
+  "rel_l2_emulator": 0.01662448844839729,
+  "cosine_emulator": 0.9999292459906081,
+  "projected_gain": 0.9882459383149375,
+  "rel_l2_T_only_emulator": 0.003713617718969178,
+  "rms_dflux_per_unit": 0.045170084551084344,
+  "n_pix": 12818
+ },
+ "am": {
+  "rel_l2_emulator": 0.03605551390890653,
+  "cosine_emulator": 0.9993769407782248,
+  "projected_gain": 1.0061164866057701,
+  "rel_l2_T_only_emulator": 0.01142324429532939,
+  "rms_dflux_per_unit": 0.046229378084357994,
+  "n_pix": 12818
+ }
+}

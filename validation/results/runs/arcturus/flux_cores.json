@@ -1,0 +1,177 @@
+{
+ "core_depth": 0.8,
+ "Ca II triplet": {
+  "n_pix": 20,
+  "min_flux": [
+   0.06085804161931675,
+   0.051561986543683956,
+   0.05437260965169759
+  ],
+  "teff": {
+   "one_sided_spread": 0.35104970347368947,
+   "reference_reproduction_rel": 7.689319639913547e-11,
+   "rms_core_over_rms_band": 0.3081743839428906,
+   "rel_l2_emulator": 0.17068967409412747,
+   "cosine_emulator": 0.9935013184662458,
+   "projected_gain": 1.1134182165572537,
+   "rel_l2_T_only_emulator": 0.13041906606186077
+  },
+  "logg": {
+   "one_sided_spread": 0.021597883036928618,
+   "reference_reproduction_rel": 4.957612464320001e-11,
+   "rms_core_over_rms_band": 1.26443494264702,
+   "rel_l2_emulator": 0.03409525944263034,
+   "cosine_emulator": 0.9999170065875632,
+   "projected_gain": 1.0313988957852738,
+   "rel_l2_T_only_emulator": 0.017632483581988077
+  },
+  "mh": {
+   "one_sided_spread": 0.05350097309907039,
+   "reference_reproduction_rel": 5.5159285296770814e-11,
+   "rms_core_over_rms_band": 0.697407209658499,
+   "rel_l2_emulator": 0.005917361819269441,
+   "cosine_emulator": 0.9999892754260368,
+   "projected_gain": 1.0036617353243866,
+   "rel_l2_T_only_emulator": 0.01529210056843923
+  },
+  "am": {
+   "one_sided_spread": 0.060651417498570254,
+   "reference_reproduction_rel": 1.5697938427740488e-11,
+   "rms_core_over_rms_band": 0.4381594301626436,
+   "rel_l2_emulator": 0.28366327606964287,
+   "cosine_emulator": 0.9772374819787919,
+   "projected_gain": 1.1390096655816533,
+   "rel_l2_T_only_emulator": 0.14226170233039653
+  }
+ },
+ "Mg I b": {
+  "n_pix": 18,
+  "min_flux": [
+   0.0061870962942778985,
+   0.005754236670233091,
+   0.0063860808879453385
+  ],
+  "teff": {
+   "one_sided_spread": 0.08027740516949602,
+   "reference_reproduction_rel": 0.0,
+   "rms_core_over_rms_band": 0.3102743327562083,
+   "rel_l2_emulator": 0.040614472378588735,
+   "cosine_emulator": 0.999548529039419,
+   "projected_gain": 0.9717820077579342,
+   "rel_l2_T_only_emulator": 0.023426381088685968
+  },
+  "logg": {
+   "one_sided_spread": 0.017544286620125846,
+   "reference_reproduction_rel": 0.0,
+   "rms_core_over_rms_band": 0.4196937547728828,
+   "rel_l2_emulator": 0.10427543280636879,
+   "cosine_emulator": 0.9988418676322056,
+   "projected_gain": 1.0900897857372913,
+   "rel_l2_T_only_emulator": 0.04436105690116558
+  },
+  "mh": {
+   "one_sided_spread": 0.03573860543645503,
+   "reference_reproduction_rel": 0.0,
+   "rms_core_over_rms_band": 0.36017580674735156,
+   "rel_l2_emulator": 0.006643967968116674,
+   "cosine_emulator": 0.9999896798423483,
+   "projected_gain": 1.0048272063724983,
+   "rel_l2_T_only_emulator": 0.009347072619827161
+  },
+  "am": {
+   "one_sided_spread": 0.03778721287780769,
+   "reference_reproduction_rel": 0.0,
+   "rms_core_over_rms_band": 0.3672307607351829,
+   "rel_l2_emulator": 0.15735797521199335,
+   "cosine_emulator": 0.9984004794315648,
+   "projected_gain": 1.1434190601081116,
+   "rel_l2_T_only_emulator": 0.04754057557105613
+  }
+ },
+ "K I (J)": {
+  "n_pix": 2,
+  "min_flux": [
+   0.5842764428911696,
+   0.5252445819703206
+  ],
+  "teff": {
+   "one_sided_spread": 0.0658483168939206,
+   "reference_reproduction_rel": 0.0,
+   "rms_core_over_rms_band": 3.287557043420831,
+   "rel_l2_emulator": 0.03619701948529252,
+   "cosine_emulator": 0.9995382877886361,
+   "projected_gain": 0.9794132265062777,
+   "rel_l2_T_only_emulator": 0.019745408257110846
+  },
+  "logg": {
+   "one_sided_spread": 0.01908595769027514,
+   "reference_reproduction_rel": 0.0,
+   "rms_core_over_rms_band": 2.111505886801003,
+   "rel_l2_emulator": 0.165522828088816,
+   "cosine_emulator": 0.9955903248452236,
+   "projected_gain": 1.1269728527811969,
+   "rel_l2_T_only_emulator": 0.04288820127743592
+  },
+  "mh": {
+   "one_sided_spread": 0.03103936548493159,
+   "reference_reproduction_rel": 0.0,
+   "rms_core_over_rms_band": 4.162099467080187,
+   "rel_l2_emulator": 0.00774369941558958,
+   "cosine_emulator": 0.9999703968730594,
+   "projected_gain": 0.9990693256692162,
+   "rel_l2_T_only_emulator": 0.005660188057480661
+  },
+  "am": {
+   "one_sided_spread": 0.05157321264212191,
+   "reference_reproduction_rel": 0.0,
+   "rms_core_over_rms_band": 2.19423096921685,
+   "rel_l2_emulator": 0.1250012215982966,
+   "cosine_emulator": 0.9945721237928317,
+   "projected_gain": 1.058072615787675,
+   "rel_l2_T_only_emulator": 0.025723821588828192
+  }
+ },
+ "Na I (Ks)": {
+  "n_pix": 2,
+  "min_flux": [
+   0.6975029555185457,
+   0.9107796606212782
+  ],
+  "teff": {
+   "one_sided_spread": 0.02329929483449765,
+   "reference_reproduction_rel": 0.0,
+   "rms_core_over_rms_band": 12.033839401173823,
+   "rel_l2_emulator": 0.00889792549545732,
+   "cosine_emulator": 0.9999995983550011,
+   "projected_gain": 1.0088518644059916,
+   "rel_l2_T_only_emulator": 0.002868413306103491
+  },
+  "logg": {
+   "one_sided_spread": 0.026542576232736908,
+   "reference_reproduction_rel": 0.0,
+   "rms_core_over_rms_band": 1.3933518233419828,
+   "rel_l2_emulator": 0.07082097950468293,
+   "cosine_emulator": 0.999985862142919,
+   "projected_gain": 1.0705917967331984,
+   "rel_l2_T_only_emulator": 0.027917425560225143
+  },
+  "mh": {
+   "one_sided_spread": 0.0228195199242248,
+   "reference_reproduction_rel": 0.0,
+   "rms_core_over_rms_band": 7.176354898762236,
+   "rel_l2_emulator": 0.010360307858383622,
+   "cosine_emulator": 0.9999720879410929,
+   "projected_gain": 1.0071212070068967,
+   "rel_l2_T_only_emulator": 0.0037999267798610567
+  },
+  "am": {
+   "one_sided_spread": 0.0948817275269792,
+   "reference_reproduction_rel": 0.0,
+   "rms_core_over_rms_band": 0.38284897814023605,
+   "rel_l2_emulator": 0.298230457337578,
+   "cosine_emulator": 0.9624497478470212,
+   "projected_gain": 0.8074521448387537,
+   "rel_l2_T_only_emulator": 0.3215099349000891
+  }
+ }
+}

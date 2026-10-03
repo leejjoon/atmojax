@@ -75,9 +75,12 @@ giant and Arcturus), at the atmosphere level and on H-band (1550–1600 nm) spec
 - upper-atmosphere pressure derivatives, which are off by up to about 2× above log τ ≈ −1 for Teff
   at the Sun;
 - [α/M] derivatives of the atmosphere itself, worst at the cool giant (∂T/∂[α/M] 40–60% off above
-  log τ ≈ −1), although little of that reaches the H-band spectrum.
+  log τ ≈ −1), although little of that reaches the H-band spectrum;
+- strong-line cores (Mg b, Ca II triplet), where the logg and [α/M] flux derivatives are 10–60% off.
+  Window-averaged flux Jacobians in J, Ks and at 420–440, 510–520 and 846–870 nm are as good as the
+  H band's.
 
-**Not yet measured:** cool dwarfs, other wavelength bands, and the CNO initializer's derivatives. See the report for the full
+**Not yet measured:** cool dwarfs, the UV, and the CNO initializer's derivatives. See the report for the full
 tables, method and limitations.
 
 ## Tests
