@@ -63,6 +63,10 @@ boilerplate, type hints on public signatures).
   either changes upstream, the decode in `initializer.py` would silently stop matching), and writes
   everything to a plain `.npz` of float64 NumPy arrays plus per-layer `W{i}`/`b{i}` weight matrices
   (Torch `(out, in)` layout; transposed to `(in, out)` when loaded into `AtmosphereInitializer`).
+- `docs/weights-format.md` is the `.npz` contract (keys, shapes, coordinate definitions and their
+  inverses) for writers other than `atmojax-export`, e.g. an ATLAS12-trained emulator built in DSS.
+  `Weights.__post_init__` enforces it via `Weights.problems()`; keep the doc, `problems()`,
+  `coordinates()` and `predict()` in sync if any of them change.
 
 ### What is deliberately left out of the decode (vs. upstream Payne Zero)
 

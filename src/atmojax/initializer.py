@@ -59,6 +59,51 @@ class Weights:
     pca_coefficient_std: np.ndarray
     layers: tuple[tuple[np.ndarray, np.ndarray], ...]   # (W, b) per Linear, torch layout (out, in)
 
+    def __post_init__(self):
+        problems = self.problems()
+        if problems:
+            raise ValueError("invalid atmojax weights (see docs/weights-format.md):\n  " + "\n  ".join(problems))
+
+    def problems(self) -> list[str]:
+        """Violations of the weights-file contract (docs/weights-format.md); empty when valid."""
+        out = []
+        f = self.feature_fields
+        if not f or f[0] != "temperature_ratio_5040_k_over_temperature":
+            out.append(f"feature_fields[0] must be 'temperature_ratio_5040_k_over_temperature', got {f[:1]}")
+        if unknown := [x for x in f if x not in LABEL_OF_FEATURE]:
+            out.append(f"unknown feature_fields {unknown}; add them to LABEL_OF_FEATURE first")
+        if len(set(f)) != len(f):
+            out.append(f"duplicate feature_fields {f}")
+        n, size = len(f), LAYERS * len(FIELDS)
+        k = np.shape(self.pca_basis)[0] if np.ndim(self.pca_basis) == 2 else None
+        for name, shape in [("label_mean", (n,)), ("label_std", (n,)), ("label_bounds", (n, 2)),
+                            ("tau", (LAYERS,)), ("pca_coordinate_mean", (size,)), ("pca_coordinate_std", (size,)),
+                            ("pca_basis", (k, size)), ("pca_coefficient_mean", (k,)), ("pca_coefficient_std", (k,))]:
+            if np.shape(getattr(self, name)) != shape:
+                out.append(f"{name} has shape {np.shape(getattr(self, name))}, expected {shape}")
+        if out:
+            return out
+        if np.any(self.label_std <= 0) or np.any(self.pca_coordinate_std <= 0) or np.any(self.pca_coefficient_std <= 0):
+            out.append("label_std, pca_coordinate_std and pca_coefficient_std must be > 0")
+        if np.any(self.label_bounds[:, 0] > self.label_bounds[:, 1]):
+            out.append("label_bounds must be [lo, hi] with lo <= hi")
+        if not np.allclose(self.tau, 10.0 ** LOG_TAU_ROSS, rtol=1e-6, atol=0.0):
+            out.append("tau must be 10**LOG_TAU_ROSS (log10 tau = -6.875 + 0.125 j)")
+        if not self.acceleration_scale > 0:
+            out.append(f"acceleration_scale must be > 0, got {self.acceleration_scale}")
+        if not self.layers:
+            out.append("no Linear layers")
+        width = n
+        for i, (W, b) in enumerate(self.layers):
+            if np.ndim(W) != 2 or np.shape(W)[1] != width or np.shape(b) != (np.shape(W)[0],):
+                out.append(f"layer {i}: W {np.shape(W)} / b {np.shape(b)} do not chain from width {width} "
+                           f"(expected W (out, {width}), b (out,))")
+                return out
+            width = np.shape(W)[0]
+        if self.layers and width != k:
+            out.append(f"last layer outputs {width}, but pca_basis has {k} components")
+        return out
+
     @classmethod
     def load(cls, path: str | Path) -> "Weights":
         z = np.load(path, allow_pickle=False)

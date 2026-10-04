@@ -3,7 +3,9 @@ compare against Payne Zero's own implementation and run only when payne-zero, to
 checkpoints are available (set ATMOJAX_SKIP_PARITY=1 to skip them explicitly)."""
 from __future__ import annotations
 
+import dataclasses
 import os
+import re
 
 import jax
 import jax.numpy as jnp
@@ -86,6 +88,22 @@ def test_weights_roundtrip(tmp_path, init):
     np.savez(tmp_path / "w.npz", **arrays)
     again = AtmosphereInitializer(tmp_path / "w.npz", mlp_dtype=jnp.float64)
     np.testing.assert_array_equal(np.asarray(again.predict(SUN)), np.asarray(init.predict(SUN)))
+
+
+@pytest.mark.parametrize("change, message", [
+    (lambda w: {"feature_fields": w.feature_fields[1:] + w.feature_fields[:1]}, "feature_fields[0]"),
+    (lambda w: {"feature_fields": w.feature_fields[:4] + ("helium",)}, "unknown feature_fields"),
+    (lambda w: {"label_std": w.label_std[:4]}, "label_std has shape"),
+    (lambda w: {"tau": 10.0 ** (LOG_TAU_ROSS + 0.1)}, "tau must be"),
+    (lambda w: {"pca_basis": w.pca_basis[:5]}, "pca_coefficient_mean has shape"),
+    (lambda w: {"layers": ((w.layers[0][0].T, w.layers[0][1]),) + w.layers[1:]}, "do not chain"),
+    (lambda w: {"layers": w.layers[:2]}, "last layer outputs"),
+    (lambda w: {"acceleration_scale": 0.0}, "acceleration_scale"),
+])
+def test_invalid_weights_are_rejected(change, message):
+    w = synthetic_weights()
+    with pytest.raises(ValueError, match=re.escape(message)):
+        dataclasses.replace(w, **change(w))
 
 
 # --- parity with Payne Zero's own implementation -------------------------------------------------

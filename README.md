@@ -30,6 +30,10 @@ atmojax-export cno8 cno8.npz                  # ... + [C/M], [N/M], [O/M]
 # or: atmojax-export --checkpoint path/to/checkpoint.pt out.npz
 ```
 
+The `.npz` is a plain, documented format ([`docs/weights-format.md`](docs/weights-format.md)). A
+network of the same shape trained elsewhere (for example on ATLAS12 models) can be written to it
+directly and evaluated by atmojax unchanged.
+
 ## Use
 
 ```python
