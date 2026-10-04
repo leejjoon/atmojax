@@ -1,0 +1,60 @@
+truth {'teff': 4286.0, 'logg': 1.66, 'mh': -0.52, 'am': 0.3}; start {'teff': 4036.7450417544183, 'logg': 2.1334602747664126, 'mh': -0.64, 'am': 0.24}; mock windows [(1000.0, 10922), (1500.0, 10922), (2200.0, 10922)]
+start atmosphere re-solved (664s)
+3 catalogues in 235s; capacities {16: 9728, 64: 1536, 256: 511, 1024: 254, 4096: 31}
+window 0: 10671 of 10922 pixels used
+window 1: 10768 of 10922 pixels used
+window 2: 10807 of 10922 pixels used
+tangent: atmojax (atmosphere xi 2 km/s)
+  [state] re-solved at {'teff': np.float64(4035.0), 'logg': np.float64(2.13), 'mh': np.float64(-0.64), 'am': np.float64(0.24)} (0s, route direct, cached=True)
+  [jacobian] at {'teff': np.float64(4035.0), 'logg': np.float64(2.13), 'mh': np.float64(-0.64), 'am': np.float64(0.24)} (9s; {'teff': 'tangent', 'logg': 'tangent', 'mh': 'tangent', 'am': 'tangent'})
+start chi2 13265313.7 at {'teff': np.float64(4036.745), 'logg': np.float64(2.1335), 'mh': np.float64(-0.64), 'am': np.float64(0.24)}, v_rad 0.000, xi 1.500
+  outer 0 inner 0: chi2 4419096.8 lambda 2.5e-02 labels [4266.3115, 2.9688, -0.7909, 0.0756] v_rad 1.747 xi 2.639 step [229.5664, 0.8354, -0.1509, -0.1644] (277s)
+  outer 0 inner 1: chi2 1770904.6 lambda 5.0e-03 labels [4267.2497, 2.9701, -0.7725, -0.0499] v_rad 3.686 xi 2.998 step [0.9383, 0.0013, 0.0184, -0.1255] (24s)
+  outer 0 inner 2: chi2 1581418.7 lambda 2.5e-02 labels [4262.9281, 2.9598, -0.6045, -0.0633] v_rad 3.658 xi 2.273 step [-4.3216, -0.0104, 0.168, -0.0135] (27s)
+  outer 0 inner 3: chi2 1551197.2 lambda 1.2e-01 labels [4265.1457, 2.9605, -0.6931, -0.0879] v_rad 3.662 xi 2.280 step [2.2175, 0.0007, -0.0886, -0.0246] (27s)
+  outer 0 inner 4: chi2 1463502.8 lambda 2.5e-02 labels [4262.546, 2.9462, -0.6086, -0.0778] v_rad 3.663 xi 2.306 step [-2.5997, -0.0143, 0.0845, 0.0101] (24s)
+  outer 0 inner 5: chi2 1425918.9 lambda 5.0e-03 labels [4262.7187, 2.9464, -0.6689, -0.0994] v_rad 3.663 xi 2.392 step [0.1727, 0.0002, -0.0603, -0.0217] (24s)
+  outer 0 inner 6: chi2 1421568.7 lambda 1.2e-01 labels [4262.68, 2.9462, -0.6546, -0.0976] v_rad 3.662 xi 2.401 step [-0.0387, -0.0002, 0.0143, 0.0018] (28s)
+  outer 0 inner 7: chi2 1417438.1 lambda 2.5e-02 labels [4262.6757, 2.9462, -0.6546, -0.0975] v_rad 3.662 xi 2.403 step [-0.0043, -0.0, -0.0, 0.0001] (24s)
+  [state] re-solved at {'teff': np.float64(4265.0), 'logg': np.float64(2.95), 'mh': np.float64(-0.65), 'am': np.float64(-0.1)} (596s, route direct, cached=None)
+  [jacobian] at {'teff': np.float64(4265.0), 'logg': np.float64(2.95), 'mh': np.float64(-0.65), 'am': np.float64(-0.1)} (0s; {'teff': 'tangent', 'logg': 'tangent', 'mh': 'tangent', 'am': 'tangent'})
+  after the state refresh chi2 1469933.7
+  outer 1 inner 0: chi2 516243.7 lambda 1.2e-01 labels [4220.2113, 2.5974, -0.5426, -0.0168] v_rad 3.665 xi 2.280 step [-42.4643, -0.3489, 0.112, 0.0807] (27s)
+  outer 1 inner 1: chi2 242609.5 lambda 2.5e-02 labels [4217.8546, 2.5664, -0.476, 0.104] v_rad 3.669 xi 2.082 step [-2.3567, -0.0309, 0.0665, 0.1207] (24s)
+  outer 1 inner 2: chi2 211738.3 lambda 5.0e-03 labels [4222.6409, 2.6164, -0.4437, 0.1419] v_rad 3.670 xi 2.046 step [4.7863, 0.0499, 0.0323, 0.0379] (24s)
+  outer 1 inner 3: chi2 211235.8 lambda 1.0e-03 labels [4227.2171, 2.6281, -0.4327, 0.146] v_rad 3.670 xi 2.043 step [4.5762, 0.0117, 0.011, 0.0041] (24s)
+  outer 1 inner 4: chi2 211234.3 lambda 2.0e-04 labels [4226.8004, 2.6274, -0.4331, 0.146] v_rad 3.670 xi 2.042 step [-0.4167, -0.0007, -0.0004, 0.0] (24s)
+  [state] re-solved at {'teff': np.float64(4225.0), 'logg': np.float64(2.63), 'mh': np.float64(-0.43), 'am': np.float64(0.15)} (644s, route direct, cached=None)
+  [jacobian] at {'teff': np.float64(4225.0), 'logg': np.float64(2.63), 'mh': np.float64(-0.43), 'am': np.float64(0.15)} (0s; {'teff': 'tangent', 'logg': 'tangent', 'mh': 'tangent', 'am': 'tangent'})
+  after the state refresh chi2 537950.0
+  outer 2 inner 0: chi2 427380.9 lambda 2.5e-02 labels [4279.3525, 2.0962, -0.452, 0.1987] v_rad 3.671 xi 2.085 step [52.552, -0.5312, -0.0189, 0.0527] (29s)
+  outer 2 inner 1: chi2 174707.4 lambda 5.0e-03 labels [4249.2304, 2.1525, -0.5033, 0.213] v_rad 3.670 xi 2.035 step [-30.1221, 0.0562, -0.0513, 0.0143] (24s)
+  outer 2 inner 2: chi2 155295.3 lambda 1.0e-03 labels [4255.8208, 2.2184, -0.4596, 0.2059] v_rad 3.671 xi 2.032 step [6.5904, 0.0659, 0.0437, -0.0071] (24s)
+  outer 2 inner 3: chi2 155171.1 lambda 2.0e-04 labels [4255.4602, 2.2223, -0.456, 0.2052] v_rad 3.671 xi 2.032 step [-0.3605, 0.0039, 0.0036, -0.0007] (24s)
+  outer 2 inner 4: chi2 155171.0 lambda 4.0e-05 labels [4255.3985, 2.2222, -0.456, 0.2052] v_rad 3.671 xi 2.032 step [-0.0617, -0.0001, -0.0, -0.0] (24s)
+  [state] re-solved at {'teff': np.float64(4255.0), 'logg': np.float64(2.22), 'mh': np.float64(-0.46), 'am': np.float64(0.21)} (635s, route direct, cached=None)
+  [jacobian] at {'teff': np.float64(4255.0), 'logg': np.float64(2.22), 'mh': np.float64(-0.46), 'am': np.float64(0.21)} (0s; {'teff': 'tangent', 'logg': 'tangent', 'mh': 'tangent', 'am': 'tangent'})
+  after the state refresh chi2 238294.7
+  outer 3 inner 0: chi2 203049.9 lambda 5.0e-03 labels [4296.9021, 1.7952, -0.5009, 0.2702] v_rad 3.672 xi 2.046 step [41.5035, -0.4269, -0.0449, 0.065] (27s)
+  outer 3 inner 1: chi2 129506.5 lambda 1.0e-03 labels [4281.0824, 1.8884, -0.502, 0.2569] v_rad 3.671 xi 2.030 step [-15.8196, 0.0931, -0.001, -0.0133] (24s)
+  outer 3 inner 2: chi2 127171.4 lambda 2.0e-04 labels [4281.3375, 1.9222, -0.4878, 0.2518] v_rad 3.672 xi 2.029 step [0.255, 0.0338, 0.0142, -0.0051] (24s)
+  outer 3 inner 3: chi2 127168.2 lambda 4.0e-05 labels [4280.9401, 1.9224, -0.4876, 0.2516] v_rad 3.672 xi 2.029 step [-0.3974, 0.0002, 0.0002, -0.0003] (24s)
+  [state] re-solved at {'teff': np.float64(4280.0), 'logg': np.float64(1.92), 'mh': np.float64(-0.49), 'am': np.float64(0.25)} (0s, route direct, cached=True)
+  [jacobian] at {'teff': np.float64(4280.0), 'logg': np.float64(1.92), 'mh': np.float64(-0.49), 'am': np.float64(0.25)} (0s; {'teff': 'tangent', 'logg': 'tangent', 'mh': 'tangent', 'am': 'tangent'})
+  after the state refresh chi2 139623.4
+  outer 4 inner 0: chi2 123216.9 lambda 2.0e-04 labels [4300.2143, 1.7068, -0.5127, 0.2859] v_rad 3.672 xi 2.031 step [19.2742, -0.2156, -0.0251, 0.0344] (24s)
+  outer 4 inner 1: chi2 120208.5 lambda 4.0e-05 labels [4295.5373, 1.7523, -0.5066, 0.2781] v_rad 3.672 xi 2.029 step [-4.677, 0.0455, 0.0061, -0.0078] (24s)
+  outer 4 inner 2: chi2 120199.3 lambda 8.0e-06 labels [4295.132, 1.7549, -0.5061, 0.2775] v_rad 3.672 xi 2.028 step [-0.4054, 0.0026, 0.0005, -0.0006] (24s)
+  outer 4 inner 3: chi2 120199.3 lambda 1.6e-06 labels [4295.1211, 1.7548, -0.5061, 0.2775] v_rad 3.672 xi 2.028 step [-0.0109, -0.0001, -0.0, -0.0] (24s)
+  [state] re-solved at {'teff': np.float64(4295.0), 'logg': np.float64(1.75), 'mh': np.float64(-0.51), 'am': np.float64(0.28)} (0s, route direct, cached=True)
+  [jacobian] at {'teff': np.float64(4295.0), 'logg': np.float64(1.75), 'mh': np.float64(-0.51), 'am': np.float64(0.28)} (0s; {'teff': 'tangent', 'logg': 'tangent', 'mh': 'tangent', 'am': 'tangent'})
+  after the state refresh chi2 120688.0
+  outer 5 inner 0: chi2 119416.6 lambda 2.0e-04 labels [4299.7132, 1.6961, -0.5124, 0.2869] v_rad 3.672 xi 2.029 step [4.5921, -0.0588, -0.0063, 0.0093] (24s)
+  outer 5 inner 1: chi2 119405.0 lambda 4.0e-05 labels [4299.2346, 1.7005, -0.5119, 0.2861] v_rad 3.672 xi 2.028 step [-0.4786, 0.0044, 0.0006, -0.0007] (24s)
+  outer 5 inner 2: chi2 119405.0 lambda 8.0e-06 labels [4299.2239, 1.7005, -0.5119, 0.2861] v_rad 3.672 xi 2.028 step [-0.0108, -0.0, -0.0, -0.0] (24s)
+  [state] re-solved at {'teff': np.float64(4300.0), 'logg': np.float64(1.7), 'mh': np.float64(-0.51), 'am': np.float64(0.29)} (0s, route direct, cached=True)
+  [jacobian] at {'teff': np.float64(4300.0), 'logg': np.float64(1.7), 'mh': np.float64(-0.51), 'am': np.float64(0.29)} (0s; {'teff': 'tangent', 'logg': 'tangent', 'mh': 'tangent', 'am': 'tangent'})
+  after the state refresh chi2 119393.5
+  outer 6 inner 0: chi2 119379.1 lambda 2.0e-04 labels [4299.2485, 1.6936, -0.5127, 0.2872] v_rad 3.672 xi 2.028 step [0.0246, -0.0068, -0.0008, 0.0011] (24s)
+  outer 6 inner 1: chi2 119379.1 lambda 4.0e-05 labels [4299.2501, 1.6938, -0.5127, 0.2872] v_rad 3.672 xi 2.028 step [0.0016, 0.0002, 0.0, -0.0] (24s)
+recovered - truth: {'teff': 13.2501, 'logg': 0.0338, 'mh': 0.0073, 'am': -0.0128} sigma: {'teff': 0.675, 'logg': 0.0039, 'mh': 0.0011, 'am': 0.001} dv_rad -0.028 xi 2.028 chi2_red 3.704 acceptance {'teff': True, 'logg': True, 'mh': True, 'am': True} wall 4010s

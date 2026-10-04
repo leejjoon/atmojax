@@ -1,0 +1,37 @@
+catalogues 232s, capacities {16: 11776, 64: 2048, 256: 511, 1024: 127, 4096: 31}
+start 0: {'teff': 5998.528052786184, 'logg': 4.451327552814362, 'mh': 0.29, 'am': -0.13} -> delta {'teff': 34.4594, 'logg': 0.0107, 'mh': 0.0134, 'am': 0.0024} chi2_red 1.856 inner 9 outer 3 1980s within False
+start 1: {'teff': 5830.677915997515, 'logg': 4.316486584377273, 'mh': 0.18, 'am': -0.1} -> delta {'teff': 34.4575, 'logg': 0.0107, 'mh': 0.0134, 'am': 0.0024} chi2_red 1.856 inner 10 outer 3 1417s within False
+start 2: {'teff': 5962.817637093828, 'logg': 4.483941400763499, 'mh': 0.24, 'am': -0.01} -> delta {'teff': 34.4349, 'logg': 0.0107, 'mh': 0.0134, 'am': 0.0024} chi2_red 1.856 inner 8 outer 3 1369s within False
+start 3: {'teff': 5742.248138864707, 'logg': 4.72894671754433, 'mh': 0.29, 'am': -0.04} -> delta {'teff': 34.4932, 'logg': 0.0108, 'mh': 0.0134, 'am': 0.0024} chi2_red 1.856 inner 10 outer 3 1376s within False
+start 4: {'teff': 6011.466434658118, 'logg': 4.86902638776542, 'mh': -0.19, 'am': 0.03} -> delta {'teff': 34.3305, 'logg': 0.0112, 'mh': 0.0136, 'am': 0.0023} chi2_red 1.856 inner 12 outer 3 1793s within False
+start 5: {'teff': 5879.432372782371, 'logg': 4.882803679129168, 'mh': 0.1, 'am': -0.11} -> delta {'teff': 34.3268, 'logg': 0.0112, 'mh': 0.0136, 'am': 0.0023} chi2_red 1.856 inner 11 outer 3 1669s within False
+start 6: {'teff': 5775.933799392687, 'logg': 4.433619833956115, 'mh': 0.0, 'am': 0.14} -> delta {'teff': 34.3262, 'logg': 0.0105, 'mh': 0.0134, 'am': 0.0025} chi2_red 1.856 inner 8 outer 2 1107s within False
+start 7: {'teff': 5701.968699911127, 'logg': 4.163771146778217, 'mh': 0.01, 'am': 0.04} -> delta {'teff': 34.4722, 'logg': 0.0108, 'mh': 0.0134, 'am': 0.0024} chi2_red 1.856 inner 11 outer 3 1382s within False
+start 8: {'teff': 5996.553526712004, 'logg': 4.522015800647046, 'mh': -0.14, 'am': 0.13} -> delta {'teff': 34.7604, 'logg': 0.0113, 'mh': 0.0137, 'am': 0.0022} chi2_red 1.856 inner 9 outer 2 1164s within False
+start 9: {'teff': 5772.862642306238, 'logg': 4.615800864933526, 'mh': -0.01, 'am': -0.08} -> delta {'teff': 34.4593, 'logg': 0.0107, 'mh': 0.0134, 'am': 0.0024} chi2_red 1.856 inner 10 outer 3 1208s within False
+chi2 verdict: 10 of 10 accepted against reference chi2_red 1.8556; worst ratio 1.000x
+final FD Jacobian at the best start: {'at': [5805.0, 4.46, 0.01, 0.0], 'sigma': {'teff': 1.578699437842386, 'logg': 0.003113421644715945, 'mh': 0.0011479151494933537, 'am': 0.0013619362677343729}, 'chi2_red_with_fd_J': 1.8559217453889223, 'seconds': 1261.2412705421448, 'estimators': {'teff': 'central', 'logg': 'central', 'mh': 'central', 'am': 'central'}}
+summary {'n_starts': 10, 'n_ok': 10, 'n_accepted': 10, 'n_same_optimum': 10, 'frac_same_optimum': 1.0, 'spread_between_starts': {'teff': 0.4341660203053834, 'logg': 0.0008324848386314088, 'mh': 0.00025943851631016895, 'am': 0.0003112755673149595}, 'median_delta_vs_truth': {'teff': 34.45842563208498, 'logg': 0.010774916712168014, 'mh': 0.01342668914623122, 'am': 0.0023675633017077357}, 'chi2_spread': 8.985611417504334e-05, 'wall_s_median': 1379.007122516632, 'rejected': [], 'tangent_evaluations_clipped_to_the_box': 3, 'atlas12_solves_total': 32, 'run_wall_s': 16485.989169836044}
+	Command being timed: ".venv/bin/python -u scripts/phase3_v35_multistart.py --mock sun --key t05777_g+4.44_m+0.00_a+0.00 --n-starts 10 --seed 4 --concurrent 4 --tag hybrid_sun --tangent atmojax --final-fd --workdir /home/jjlee/work/atmojax/validation/work/dss_multistart/sun"
+	User time (seconds): 58112.68
+	System time (seconds): 2239.26
+	Percent of CPU this job got: 360%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 4:38:39
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 16774232
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 15569
+	Minor (reclaiming a frame) page faults: 183055377
+	Voluntary context switches: 30853775
+	Involuntary context switches: 834614
+	Swaps: 0
+	File system inputs: 21536
+	File system outputs: 23865296
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

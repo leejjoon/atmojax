@@ -708,7 +708,34 @@ today's code, each with a fresh, empty ATLAS12 cache, side by side with 4 concur
   faster, the total 22–24% shorter. Each arm still pays for the start atmosphere and three state
   re-solves. In a multistart campaign, with the final finite-difference Jacobian formed only for the
   accepted fit, every start's Jacobians would be saved.
-- **Scope.** Two mocks, one start each, the five-label initializer.
+- **Scope.** Two mocks, the five-label initializer; multistart below.
+
+**Multistart** (DSS's V3.5 starts, same seeds: truth ± 250 K, 0.5, 0.3, 0.15; DSS commit `4ea493c`,
+`artifacts/phase3/metrics/v35_multistart_hybrid_*.json`). Hybrid only, one fresh cache per star, the
+final finite-difference Jacobian formed once, at the best accepted start; compared with DSS's recorded
+finite-difference campaigns:
+
+| | Sun, hybrid | Sun, recorded | Arcturus, hybrid | Arcturus, recorded |
+|---|---|---|---|---|
+| starts accepted | **10 / 10** | 10 / 10 | **9 / 10** | 10 / 10 |
+| spread between starts (Teff) | 0.43 K | 0.65 K | 0.46 K | – |
+| per-start wall time, median | **1379 s** | 4263 s | **2105 s** | 5665 s |
+| sum over the 10 starts | **14,466 s** | 42,149 s | **24,048 s** | 60,503 s |
+| ATLAS12 solves, whole campaign | 32 | – | 38 | – |
+| final σ(Teff) | 1.58 K | | 0.68 K | |
+
+- **The rejected start is not a stall.** Arcturus start 5 (4037 K, logg 2.13) jumped about 17 label
+  steps on its first linearisation, to logg 2.97, and then closed about half the remaining distance at
+  each re-solve. It used all five outer iterations, one short. DSS's `select_best` rejected it
+  (χ²_red 1.011× the reference). Re-run with eight outer iterations, it reaches the optimum in seven
+  (Teff +13.25 K, χ²_red 3.704). Either a larger `max_outer` for the hybrid or a cap on the inner step
+  length relative to the linearisation centre would avoid this; with the tangent free, both cost only
+  state re-solves.
+- **The speed-up is 2.5–3× per start** against the recorded runs. Those used DSS's older refresh, nine
+  solves each, and a pre-filled cache, so against today's finite-difference seam the gain would be
+  nearer the single-start 1.9–2.8× above.
+- The Sun's tangent was taken at the edge of the training box three times ([α/M] down to −0.13 at the
+  starts), with no visible effect.
 
 ---
 
@@ -739,8 +766,8 @@ today's code, each with a fresh, empty ATLAS12 cache, side by side with 4 concur
 7. **Not the direct-abundance initializer.** The five-label and CNO initializers were tested, the CNO
    one in the H band only (§6.3). The direct-abundance initializer was not. Its mode, with about 80 [X/Fe] labels, is where autodiff would save the most
    (about 80 solves per Jacobian), and it is unmeasured.
-8. **The hybrid seam was run inside DSS on two mocks only** (§7.1), on a DSS branch, not merged.
-   Multistart campaigns and real spectra were not tested.
+8. **The hybrid seam was run inside DSS on two mocks** (§7.1: single starts and 10-start campaigns), on
+   a DSS branch, not merged. Real spectra were not tested.
 
 ---
 
